@@ -5,10 +5,10 @@ import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 
 import NavBar from './components/navbar';
-import { defaultReducer } from './reducers';
+import rootReducer from './reducers';
 
 
-const store = createStore(defaultReducer, applyMiddleware(thunk));
+const store = createStore(rootReducer, applyMiddleware(thunk));
 
 class App extends Component {
   render() {
@@ -16,7 +16,6 @@ class App extends Component {
       <Provider store={store}>
         <div className="container-fluid">
           <NavBar/>
-
         </div>
       </Provider>
     );

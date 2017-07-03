@@ -1,5 +1,9 @@
-export function createAction(param){
-    return dispatch => {
-        return { type: 'ACTION', payload: param }
+export default class Actions {
+
+    static action(args){
+        return dispatch => {
+            dispatch({type: 'ACTION', payload: args});
+        }
     }
+
 }

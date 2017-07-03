@@ -74,11 +74,15 @@ class NavBar extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-    return state;
+    return({
+        ...state
+    });
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-    console.log(dispatch);
+    return({
+        action: () => {dispatch({type: 'ACTION'})}
+    });
 }
 
-export default connect(mapStateToProps)(NavBar);
+export default connect(mapStateToProps, mapDispatchToProps)(NavBar);
