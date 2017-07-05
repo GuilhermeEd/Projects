@@ -1,4 +1,5 @@
 module.exports = {
+    devtool: 'source-map',
     entry: './app/App.js',
     output: {
         path: __dirname + '/public', 

@@ -1,10 +1,6 @@
-const INITIAL_STATE = {
+import { combineReducers } from 'redux';
+import rootReducer from './rootReducer';
 
-}
-
-export default (state = INITIAL_STATE, action) => {
-    switch(action.type){
-        default:
-            return { ...state };
-    }
-}
+export default combineReducers({
+    root: rootReducer
+});

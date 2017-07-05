@@ -1,25 +1,24 @@
-import React, { Component } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
-import thunk from 'redux-thunk';
+import ReduxThunk from 'redux-thunk';
+import { BrowserRouter, Route } from 'react-router-dom';
 
-import NavBar from './components/navbar';
-import rootReducer from './reducers';
+import Home from './components/home';
+import combinedReducers from './reducers';
 
+const INITIAL_STATE = {};
+const store = createStore(combinedReducers, INITIAL_STATE, applyMiddleware(ReduxThunk));
 
-const store = createStore(rootReducer, applyMiddleware(thunk));
-
-class App extends Component {
-  render() {
+const App = () => {
     return (
       <Provider store={store}>
-        <div className="container-fluid">
-          <NavBar/>
-        </div>
+        <BrowserRouter>
+          <Route exact path="/" component={Home}/>
+        </BrowserRouter>
       </Provider>
     );
-  }
 }
 
 ReactDOM.render(<App />, document.getElementById('root'));
