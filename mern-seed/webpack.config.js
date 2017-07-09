@@ -2,13 +2,13 @@ module.exports = {
     devtool: 'source-map',
     entry: './app/App.js',
     output: {
-        path: __dirname + '/public', 
+        path: __dirname + '/client/public', 
         filename: 'bundle.js'
     },
 
     devServer: {
     inline: true,
-    contentBase: './public',
+    contentBase: './client/public',
     port: 3333
     },
 

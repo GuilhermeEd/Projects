@@ -7,7 +7,7 @@
   },
   "main": "index.js",
   "scripts": {
-    "start": "webpack && node index.js"
+    "start": "webpack && node server/index.js"
   },
   "dependencies": {
     "body-parser": "^1.17.2",
