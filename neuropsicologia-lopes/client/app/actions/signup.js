@@ -17,10 +17,20 @@ export const handleSubmit = (name, surname, email, password) => {
         };
 
         fetch("/signup", config)
-        .then(dispatch({ type: 'SUBMIT', message: 'Usuário Registrado!'}))
+        .then( res => {
+            if(res.status == 201){
+                return res.json();
+            }
+            if (res.status == 400) {
+                dispatch({ type: 'SUBMIT', message: 'Usuário já existe'})
+            }
+        })
+        .then( data => {
+            dispatch({ type: 'SUBMIT', message: 'Usuário Registrado!'})
+            })
         .catch(err => {
-        console.log(err.status);
-        dispatch({ type: 'SUBMIT', message: 'Já existe um usuário com este e-mail!'};
+            console.log(err);
+            dispatch({ type: 'SUBMIT', message: 'Solicitação falhou. Tente novamente.'})
         });
     }    
 }

@@ -12279,7 +12279,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _signup = __webpack_require__(268);
+var _signup = __webpack_require__(266);
 
 Object.keys(_signup).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
@@ -27921,7 +27921,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _redux = __webpack_require__(58);
 
-var _signupReducer = __webpack_require__(269);
+var _signupReducer = __webpack_require__(264);
 
 var _signupReducer2 = _interopRequireDefault(_signupReducer);
 
@@ -27932,7 +27932,45 @@ exports.default = (0, _redux.combineReducers)({
 });
 
 /***/ }),
-/* 264 */,
+/* 264 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+var INITIAL_STATE = {
+    name: '',
+    surname: '',
+    email: '',
+    password: '',
+    message: ''
+};
+
+var signupReducer = function signupReducer() {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : INITIAL_STATE;
+    var action = arguments[1];
+
+    switch (action.type) {
+        case 'HANDLE_CHANGE':
+            return _extends({}, state, _defineProperty({}, action.field, action.val));
+        case 'SUBMIT':
+            return _extends({}, state, { message: action.message });
+        default:
+            return _extends({}, state);
+    }
+};
+
+exports.default = signupReducer;
+
+/***/ }),
 /* 265 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -28001,7 +28039,50 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
 exports.default = (0, _reactRouterDom.withRouter)((0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Home));
 
 /***/ }),
-/* 266 */,
+/* 266 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+var handleChange = exports.handleChange = function handleChange(field, val) {
+    return { type: 'HANDLE_CHANGE', field: field, val: val };
+};
+
+var handleSubmit = exports.handleSubmit = function handleSubmit(name, surname, email, password) {
+    return function (dispatch) {
+
+        var headers = new Headers({
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        });
+
+        var config = {
+            method: 'POST',
+            headers: headers,
+            body: JSON.stringify({ name: name, surname: surname, email: email, password: password })
+        };
+
+        fetch("/signup", config).then(function (res) {
+            if (res.status == 201) {
+                return res.json();
+            }
+            if (res.status == 400) {
+                dispatch({ type: 'SUBMIT', message: 'Usuário já existe' });
+            }
+        }).then(function (data) {
+            dispatch({ type: 'SUBMIT', message: 'Usuário Registrado!' });
+        }).catch(function (err) {
+            console.log(err);
+            dispatch({ type: 'SUBMIT', message: 'Solicitação falhou. Tente novamente.' });
+        });
+    };
+};
+
+/***/ }),
 /* 267 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -28148,79 +28229,6 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
 };
 
 exports.default = (0, _reactRouterDom.withRouter)((0, _reactRedux.connect)(mapStateToProps, { handleChange: _actions.handleChange, handleSubmit: _actions.handleSubmit })(SignUpForm));
-
-/***/ }),
-/* 268 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-var handleChange = exports.handleChange = function handleChange(field, val) {
-    return { type: 'HANDLE_CHANGE', field: field, val: val };
-};
-
-var handleSubmit = exports.handleSubmit = function handleSubmit(name, surname, email, password) {
-    return function (dispatch) {
-
-        var headers = new Headers({
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-        });
-
-        var config = {
-            method: 'POST',
-            headers: headers,
-            body: JSON.stringify({ name: name, surname: surname, email: email, password: password })
-        };
-
-        fetch("/signup", config).then(dispatch({ type: 'SUBMIT' })).catch(function (err) {
-            return console.log(JSON.stringify(err.status));
-        });
-    };
-};
-
-/***/ }),
-/* 269 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-var INITIAL_STATE = {
-    name: '',
-    surname: '',
-    email: '',
-    password: '',
-    message: ''
-};
-
-var signupReducer = function signupReducer() {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : INITIAL_STATE;
-    var action = arguments[1];
-
-    switch (action.type) {
-        case 'HANDLE_CHANGE':
-            return _extends({}, state, _defineProperty({}, action.field, action.val));
-        case 'SUBMIT':
-            return _extends({}, state, { message: action.message });
-        default:
-            return _extends({}, state);
-    }
-};
-
-exports.default = signupReducer;
 
 /***/ })
 /******/ ]);

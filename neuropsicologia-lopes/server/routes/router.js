@@ -13,11 +13,11 @@ router.post('/signup', function (req, res) {
 
     User.findOne({email},function(err, doc){
         if(doc){
-            return res.status(400).json({status: 'usuario ja existe'});
+            return res.json(400, {status: 'nok'});
         }
         const user = new User({name, surname, email, password});
         user.save();
-        res.status(301).json({status: 'ok'});
+        res.json(201, {status: 'ok'});
     })
 
 });
