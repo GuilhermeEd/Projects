@@ -3,12 +3,12 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import ReduxThunk from 'redux-thunk';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
-import combinedReducers from './reducers';
+import './App.css';
 import Home from './components/home';
-import SignUpForm from './components/signupform';
-
+import combinedReducers from './reducers';
+import LoginPage from './components/loginpage'
 
 const INITIAL_STATE = {};
 const store = createStore(combinedReducers, INITIAL_STATE, applyMiddleware(ReduxThunk));
@@ -16,12 +16,12 @@ const store = createStore(combinedReducers, INITIAL_STATE, applyMiddleware(Redux
 const App = () => {
     return (
       <Provider store={store}>
-        <Router>
+        <BrowserRouter>
           <Switch>
             <Route exact path="/" component={Home}/>
-            <Route path="/signup" component={SignUpForm}/>
+            <Route path="/login" component={LoginPage}></Route>
           </Switch>
-        </Router>
+        </BrowserRouter>
       </Provider>
     );
 }

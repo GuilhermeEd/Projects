@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
-import signupReducer from './signupReducer';
+import rootReducer from './rootReducer';
 
 export default combineReducers({
-    signup: signupReducer
+    root: rootReducer
 });

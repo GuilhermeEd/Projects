@@ -24,6 +24,12 @@ module.exports = {
         {
             test: /\.css$/,
             loader: ['style-loader', 'css-loader']
+        },
+        {
+          test: /\.(jpe?g|png|gif|svg)$/i,
+            loaders: [
+                'image-webpack-loader?bypassOnDebug&optimizationLevel=7&interlaced=false' 
+            ]
         }]
     }
 
