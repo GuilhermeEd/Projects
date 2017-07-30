@@ -8,7 +8,7 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import './App.css';
 import Home from './components/home';
 import combinedReducers from './reducers';
-import LoginPage from './components/loginpage'
+import LoginPage from './components/auth/loginpage'
 
 const INITIAL_STATE = {};
 const store = createStore(combinedReducers, INITIAL_STATE, applyMiddleware(ReduxThunk));
