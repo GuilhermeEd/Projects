@@ -25,9 +25,8 @@ export const login = (email, password) => {
     }
 }
 
-export const signup = (username, email, password, passwordconfirmation) => {
+export const signup = (firstName, lastName, email, password, passwordconfirmation) => {
     return (dispatch) => {
-        console.log(username);
         if( !(password == passwordconfirmation) ){
             return dispatch({ type: 'SIGNUP_FAIL', msg: 'Senhas não conferem'});
         }
@@ -38,7 +37,7 @@ export const signup = (username, email, password, passwordconfirmation) => {
                 'Accept': 'application/json, text/plain, */*',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({username, email, password})
+            body: JSON.stringify({firstName, lastName, email, password})
         };
 
         fetch('/api/signup', req)

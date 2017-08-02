@@ -1,11 +1,11 @@
 const variables = {
     // DataBase config
     db : {
-        host: "mongodb.host.com",
-        port: "2717",
-        name: "dbname",
-        user: "username",
-        pass: "password"
+        host: "localhost",
+        port: "27017",
+        name: "nplopes",
+        user: "",
+        pass: ""
     },
     // Provider config
     provider : {

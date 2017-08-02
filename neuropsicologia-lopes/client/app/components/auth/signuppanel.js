@@ -9,7 +9,7 @@ class SignUpPanel extends Component {
 
     render() {
 
-        const {username, email, password, passwordconfirmation, updateField, signup, msg} = this.props;
+        const {firstName, lastName, email, password, passwordconfirmation, updateField, signup, msg} = this.props;
 
         return (
             <div className="col-sm-4 col-sm-offset-4 bannerWrapper">
@@ -23,8 +23,13 @@ class SignUpPanel extends Component {
                         </div>
                         <form onSubmit={e=>signup(e)}>
                             <div className="form-group">
-                                <label htmlFor="username">Nome</label>
-                                <input name="username" type="text" className="form-control" id="username" placeholder="Nome"
+                                <label htmlFor="firstName">Nome</label>
+                                <input name="firstName" type="text" className="form-control" id="firstName" placeholder="Nome"
+                                onChange={e=>updateField(e.target)}/>
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="lastName">Nome</label>
+                                <input name="lastName" type="text" className="form-control" id="lastName" placeholder="Sobrenome"
                                 onChange={e=>updateField(e.target)}/>
                             </div>
                             <div className="form-group">
@@ -43,7 +48,7 @@ class SignUpPanel extends Component {
                                 onChange={e=>updateField(e.target)}/>
                             </div>
                             <button type="submit" className="btn btn-default"
-                            disabled={!(username && email && password && passwordconfirmation)}>Registrar</button>
+                            disabled={!(firstName && email && password && passwordconfirmation)}>Registrar</button>
                         </form>
                     </div>
                 </div>
@@ -53,7 +58,8 @@ class SignUpPanel extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-    username: state.auth.username,
+    firstName: state.auth.firstName,
+    lastName: state.auth.lastName,
     email: state.auth.email,
     password: state.auth.password,
     passwordconfirmation: state.auth.passwordconfirmation,
@@ -64,7 +70,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     updateField: (e) => dispatch(updateField(e)),
     signup: (e) => {
         e.preventDefault();
-        dispatch(signup(username.value, email.value, password.value, passwordconfirmation.value));
+        dispatch(signup(firstName.value, lastName.value, email.value, password.value, passwordconfirmation.value));
     }
 })
 

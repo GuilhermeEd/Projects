@@ -4,17 +4,18 @@ var variables = require('../server_config/variables')
 var mongoose = require('mongoose');
 var User = require('../server_config/models/user.js');
 
-// USE THIS TO CONNECT TO THE MONGODB DATABASE
-// const {user, pass, host, port, name} = variables.db;
-// mongoose.connect(`mongodb://${user}:${pass}@${host}:${port}/${name}`);
-
 router.post('/api/login', function (req, res, next) {
     res.status(200).json(JSON.stringify(req.body));
 });
 
+ const {user, pass, host, port, name} = variables.db;
+ mongoose.connect(`mongodb://${user}:${pass}@${host}:${port}/${name}`); 
+// ADD ROUTES THAT DEPENDS ON DATABASE CONNECTION DOWN HERE
+
 router.post('/api/signup', function (req, res, next) {
-    const {username, email, password} = req.body;
-    const user = new User({username, email, password});
+    console.log(req.body);
+    const {firstName, lastName, email, password} = req.body;
+    const user = new User({firstName, lastName: lastName, email, password});
     user.save(function (err) {
         if(err) {
             console.log(err);
