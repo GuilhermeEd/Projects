@@ -28622,12 +28622,13 @@ var signup = exports.signup = function signup(firstName, lastName, email, passwo
         fetch('/api/signup', req).then(function (res) {
             return res.json();
         }).then(function (data) {
-            return console.log(data);
+            if (!data.ok) {
+                throw Error(data.msg);
+            }
+            dispatch({ type: 'SIGNUP_SUCCESS', msg: data.msg });
         }).catch(function (err) {
-            return console.log(err);
+            return dispatch({ type: 'SIGNUP_FAIL', msg: err.message });
         });
-
-        dispatch({ type: 'SIGNUP' });
     };
 };
 
@@ -28674,7 +28675,9 @@ var INITIAL_STATE = {
     email: '',
     password: '',
     passwordconfirmation: '',
-    msg: ''
+    msg: '',
+    fail: false,
+    success: false
 };
 
 var authReducer = function authReducer() {
@@ -28685,9 +28688,9 @@ var authReducer = function authReducer() {
         case 'UPDATE_FIELD':
             return _extends({}, state, _defineProperty({}, action.field.name, action.field.value));
         case 'SIGNUP_FAIL':
-            return _extends({}, state, { msg: action.msg });
-        case 'SIGNUP':
-            return _extends({}, state, { msg: '' });
+            return _extends({}, state, { msg: action.msg, fail: true, success: false });
+        case 'SIGNUP_SUCCESS':
+            return _extends({}, state, { msg: action.msg, fail: false, success: true });
         default:
             return _extends({}, state);
     }
@@ -29166,7 +29169,9 @@ var SignUpPanel = function (_Component) {
                 passwordconfirmation = _props.passwordconfirmation,
                 updateField = _props.updateField,
                 signup = _props.signup,
-                msg = _props.msg;
+                msg = _props.msg,
+                fail = _props.fail,
+                success = _props.success;
 
 
             return _react2.default.createElement(
@@ -29190,9 +29195,22 @@ var SignUpPanel = function (_Component) {
                                     'Registrar'
                                 ),
                                 _react2.default.createElement(
-                                    'span',
-                                    { className: msg ? "alert alert-danger" : "" },
-                                    msg
+                                    'div',
+                                    { className: fail ? "alert alert-danger" : "" },
+                                    _react2.default.createElement(
+                                        'span',
+                                        null,
+                                        fail ? msg : ""
+                                    )
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    { className: success ? "alert alert-success" : "" },
+                                    _react2.default.createElement(
+                                        'span',
+                                        null,
+                                        success ? msg : ""
+                                    )
                                 )
                             )
                         ),
@@ -29207,6 +29225,11 @@ var SignUpPanel = function (_Component) {
                                 _react2.default.createElement(
                                     'label',
                                     { htmlFor: 'firstName' },
+                                    _react2.default.createElement(
+                                        'span',
+                                        { style: { color: 'red' } },
+                                        '* '
+                                    ),
                                     'Nome'
                                 ),
                                 _react2.default.createElement('input', { name: 'firstName', type: 'text', className: 'form-control', id: 'firstName', placeholder: 'Nome',
@@ -29220,7 +29243,7 @@ var SignUpPanel = function (_Component) {
                                 _react2.default.createElement(
                                     'label',
                                     { htmlFor: 'lastName' },
-                                    'Nome'
+                                    'Sobrenome'
                                 ),
                                 _react2.default.createElement('input', { name: 'lastName', type: 'text', className: 'form-control', id: 'lastName', placeholder: 'Sobrenome',
                                     onChange: function onChange(e) {
@@ -29233,6 +29256,11 @@ var SignUpPanel = function (_Component) {
                                 _react2.default.createElement(
                                     'label',
                                     { htmlFor: 'email' },
+                                    _react2.default.createElement(
+                                        'span',
+                                        { style: { color: 'red' } },
+                                        '* '
+                                    ),
                                     'Email'
                                 ),
                                 _react2.default.createElement('input', { name: 'email', type: 'email', className: 'form-control', id: 'email', placeholder: 'Email',
@@ -29246,6 +29274,11 @@ var SignUpPanel = function (_Component) {
                                 _react2.default.createElement(
                                     'label',
                                     { htmlFor: 'password' },
+                                    _react2.default.createElement(
+                                        'span',
+                                        { style: { color: 'red' } },
+                                        '* '
+                                    ),
                                     'Senha'
                                 ),
                                 _react2.default.createElement('input', { name: 'password', type: 'password', className: 'form-control', id: 'password', placeholder: 'Senha',
@@ -29259,6 +29292,11 @@ var SignUpPanel = function (_Component) {
                                 _react2.default.createElement(
                                     'label',
                                     { htmlFor: 'passwordconfirmation' },
+                                    _react2.default.createElement(
+                                        'span',
+                                        { style: { color: 'red' } },
+                                        '* '
+                                    ),
                                     'Confirmar Senha'
                                 ),
                                 _react2.default.createElement('input', { name: 'passwordconfirmation', type: 'password', className: 'form-control', id: 'passwordconfirmation', placeholder: 'Senha',
@@ -29267,10 +29305,19 @@ var SignUpPanel = function (_Component) {
                                     } })
                             ),
                             _react2.default.createElement(
-                                'button',
-                                { type: 'submit', className: 'btn btn-default',
-                                    disabled: !(firstName && email && password && passwordconfirmation) },
-                                'Registrar'
+                                'div',
+                                { className: 'form-group' },
+                                _react2.default.createElement(
+                                    'button',
+                                    { type: 'submit', className: 'btn btn-default',
+                                        disabled: !(firstName && email && password && passwordconfirmation) },
+                                    'Registrar'
+                                ),
+                                _react2.default.createElement(
+                                    'span',
+                                    { style: { color: 'red', float: 'right', fontSize: 'small' } },
+                                    '* Campos Obrigat\xF3rios'
+                                )
                             )
                         )
                     )
@@ -29289,7 +29336,9 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
         email: state.auth.email,
         password: state.auth.password,
         passwordconfirmation: state.auth.passwordconfirmation,
-        msg: state.auth.msg
+        msg: state.auth.msg,
+        fail: state.auth.fail,
+        success: state.auth.success
     };
 };
 
@@ -29347,7 +29396,7 @@ exports = module.exports = __webpack_require__(32)(undefined);
 
 
 // module
-exports.push([module.i, ".banner{\r\n    color: #fff;\r\n    background-color: rgba(0, 0, 0, .25);\r\n}\r\n\r\n.bannerWrapper{\r\n    top: 50%;\r\n    transform: translateY(-50%);\r\n}\r\n\r\n.panel{\r\n    border: 0px;\r\n    margin-bottom: 20px;\r\n    box-shadow: 0px 0px 10px #000;\r\n}", ""]);
+exports.push([module.i, ".banner{\r\n    color: #222;\r\n    background-color: rgba(240, 240, 240, .90);\r\n}\r\n\r\n.bannerWrapper{\r\n    top: 50%;\r\n    transform: translateY(-50%);\r\n}\r\n\r\n.panel{\r\n    border: 0px;\r\n    margin-bottom: 20px;\r\n    box-shadow: 0px 0px 10px #000;\r\n}", ""]);
 
 // exports
 

@@ -9,7 +9,18 @@ class SignUpPanel extends Component {
 
     render() {
 
-        const {firstName, lastName, email, password, passwordconfirmation, updateField, signup, msg} = this.props;
+        const {
+            firstName,
+            lastName,
+            email,
+            password,
+            passwordconfirmation,
+            updateField,
+            signup,
+            msg,
+            fail,
+            success
+        } = this.props;
 
         return (
             <div className="col-sm-4 col-sm-offset-4 bannerWrapper">
@@ -18,37 +29,41 @@ class SignUpPanel extends Component {
                         <div className="panel-heading">
                             <div className="panel-title">
                                 <h2>Registrar</h2>
-                                <span className={ msg ? "alert alert-danger" : ""}>{msg}</span>
+                                <div className={ fail ? "alert alert-danger" : ""}><span>{ fail ? msg : ""}</span></div>
+                                <div className={ success ? "alert alert-success" : ""}><span>{ success ? msg : ""}</span></div>
                             </div>
                         </div>
                         <form onSubmit={e=>signup(e)}>
                             <div className="form-group">
-                                <label htmlFor="firstName">Nome</label>
+                                <label htmlFor="firstName"><span style={{color:'red'}}>* </span>Nome</label>
                                 <input name="firstName" type="text" className="form-control" id="firstName" placeholder="Nome"
                                 onChange={e=>updateField(e.target)}/>
                             </div>
                             <div className="form-group">
-                                <label htmlFor="lastName">Nome</label>
+                                <label htmlFor="lastName">Sobrenome</label>
                                 <input name="lastName" type="text" className="form-control" id="lastName" placeholder="Sobrenome"
                                 onChange={e=>updateField(e.target)}/>
                             </div>
                             <div className="form-group">
-                                <label htmlFor="email">Email</label>
+                                <label htmlFor="email"><span style={{color:'red'}}>* </span>Email</label>
                                 <input name="email" type="email" className="form-control" id="email" placeholder="Email"
                                 onChange={e=>updateField(e.target)}/>
                             </div>
                             <div className="form-group">
-                                <label htmlFor="password">Senha</label>
+                                <label htmlFor="password"><span style={{color:'red'}}>* </span>Senha</label>
                                 <input name="password" type="password" className="form-control" id="password" placeholder="Senha"
                                 onChange={e=>updateField(e.target)}/>
                             </div>
                             <div className="form-group">
-                                <label htmlFor="passwordconfirmation">Confirmar Senha</label>
+                                <label htmlFor="passwordconfirmation"><span style={{color:'red'}}>* </span>Confirmar Senha</label>
                                 <input name="passwordconfirmation" type="password" className="form-control" id="passwordconfirmation" placeholder="Senha"
                                 onChange={e=>updateField(e.target)}/>
                             </div>
-                            <button type="submit" className="btn btn-default"
-                            disabled={!(firstName && email && password && passwordconfirmation)}>Registrar</button>
+                            <div className="form-group">
+                                <button type="submit" className="btn btn-default"
+                                disabled={!(firstName && email && password && passwordconfirmation)}>Registrar</button>
+                                <span style={{color: 'red', float: 'right', fontSize: 'small'}}>* Campos Obrigatórios</span>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -63,7 +78,9 @@ const mapStateToProps = (state, ownProps) => ({
     email: state.auth.email,
     password: state.auth.password,
     passwordconfirmation: state.auth.passwordconfirmation,
-    msg: state.auth.msg
+    msg: state.auth.msg,
+    fail: state.auth.fail,
+    success: state.auth.success
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

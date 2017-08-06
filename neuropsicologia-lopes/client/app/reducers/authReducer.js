@@ -3,7 +3,9 @@ const INITIAL_STATE = {
     email: '',
     password: '',
     passwordconfirmation: '',
-    msg: ''
+    msg: '',
+    fail: false,
+    success: false
 }
 
 const authReducer =  (state = INITIAL_STATE, action) => {
@@ -11,9 +13,9 @@ const authReducer =  (state = INITIAL_STATE, action) => {
         case 'UPDATE_FIELD':
             return { ...state, [action.field.name]: action.field.value };
         case 'SIGNUP_FAIL':
-            return { ...state, msg: action.msg};
-        case 'SIGNUP':
-            return { ...state, msg: ''}
+            return { ...state, msg: action.msg, fail: true, success: false};
+        case 'SIGNUP_SUCCESS':
+            return { ...state, msg: action.msg, fail: false, success: true};
         default:
             return { ...state };
     }

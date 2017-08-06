@@ -42,9 +42,10 @@ export const signup = (firstName, lastName, email, password, passwordconfirmatio
 
         fetch('/api/signup', req)
         .then(res => res.json())
-        .then(data => console.log(data))
-        .catch(err => console.log(err));
-
-        dispatch({ type: 'SIGNUP' });
+        .then(data => {
+            if(!data.ok){ throw Error(data.msg); }
+            dispatch({ type: 'SIGNUP_SUCCESS', msg: data.msg})
+        })
+        .catch(err => dispatch({ type: 'SIGNUP_FAIL', msg: err.message}));
     }
 }
