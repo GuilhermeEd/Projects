@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom';
 
 import { updateField, signup } from '../../actions';
 import './signuppanel.css';
+import ReactLoading from 'react-loading';
 
 class SignUpPanel extends Component {
 
@@ -19,7 +20,8 @@ class SignUpPanel extends Component {
             signup,
             msg,
             fail,
-            success
+            success,
+            loading
         } = this.props;
 
         return (
@@ -33,7 +35,7 @@ class SignUpPanel extends Component {
                                 <div className={ success ? "alert alert-success" : ""}><span>{ success ? msg : ""}</span></div>
                             </div>
                         </div>
-                        <form onSubmit={e=>signup(e)}>
+                        <form onSubmit={e=> signup(e)}>
                             <div className="form-group">
                                 <label htmlFor="firstName"><span style={{color:'red'}}>* </span>Nome</label>
                                 <input name="firstName" type="text" className="form-control" id="firstName" placeholder="Nome"
@@ -61,7 +63,9 @@ class SignUpPanel extends Component {
                             </div>
                             <div className="form-group">
                                 <button type="submit" className="btn btn-default"
-                                disabled={!(firstName && email && password && passwordconfirmation)}>Registrar</button>
+                                disabled={!(firstName && email && password && passwordconfirmation) || loading}>{
+                                    loading ? <ReactLoading type="bubbles" color="#444" height="20px" width="58px" className="loading"/> : "Registrar"
+                                }</button>
                                 <span style={{color: 'red', float: 'right', fontSize: 'small'}}>* Campos Obrigatórios</span>
                             </div>
                         </form>
@@ -80,7 +84,8 @@ const mapStateToProps = (state, ownProps) => ({
     passwordconfirmation: state.auth.passwordconfirmation,
     msg: state.auth.msg,
     fail: state.auth.fail,
-    success: state.auth.success
+    success: state.auth.success,
+    loading: state.auth.loading
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

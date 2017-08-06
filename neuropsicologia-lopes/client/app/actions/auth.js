@@ -40,12 +40,18 @@ export const signup = (firstName, lastName, email, password, passwordconfirmatio
             body: JSON.stringify({firstName, lastName, email, password})
         };
 
+        dispatch({type: 'LOADING'});
+
         fetch('/api/signup', req)
         .then(res => res.json())
         .then(data => {
             if(!data.ok){ throw Error(data.msg); }
-            dispatch({ type: 'SIGNUP_SUCCESS', msg: data.msg})
+            dispatch({ type: 'SIGNUP_SUCCESS', msg: data.msg});
         })
-        .catch(err => dispatch({ type: 'SIGNUP_FAIL', msg: err.message}));
+        .catch(err => {
+            let msg;
+            (err.message == "Failed to fetch") ? (msg = "Falha ao enviar solicitação") : (msg = err.message);
+            dispatch({ type: 'SIGNUP_FAIL', msg});
+        });
     }
 }
