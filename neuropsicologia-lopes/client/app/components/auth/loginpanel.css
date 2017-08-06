@@ -1,9 +1,9 @@
-.banner{
-    color: #fff;
-    background-color: rgba(0, 0, 0, .25);
+.login-banner{
+    color: #222;
+    background-color: rgba(240, 240, 240, .90);
 }
 
-.bannerWrapper{
+.login-bannerWrapper{
     top: 50%;
     transform: translateY(-50%);
 }
@@ -12,4 +12,8 @@
     border: 0px;
     margin-bottom: 20px;
     box-shadow: 0px 0px 10px #000;
+}
+
+.login-loading{
+    transform: translateY(-7px);
 }

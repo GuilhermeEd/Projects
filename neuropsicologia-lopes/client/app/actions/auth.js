@@ -16,12 +16,19 @@ export const login = (email, password) => {
             body: JSON.stringify({email, password})
         };
 
+        dispatch({type: 'LOADING'});
+
         fetch('/api/login', req)
         .then(res => res.json())
-        .then(data => console.log(data))
-        .catch(err => console.log(err));
-
-        dispatch({ type: 'LOGIN' });
+        .then(data => {
+            if(!data.ok){ throw Error(data.msg); }
+            dispatch({ type: 'LOGIN_SUCCESS', msg: data.msg});
+        })
+        .catch(err => {
+            let msg;
+            (err.message == "Failed to fetch") ? (msg = "Falha ao enviar solicitação") : (msg = err.message);
+            dispatch({ type: 'LOGIN_FAIL', msg});
+        });
     }
 }
 

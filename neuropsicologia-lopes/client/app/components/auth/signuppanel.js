@@ -25,8 +25,8 @@ class SignUpPanel extends Component {
         } = this.props;
 
         return (
-            <div className="col-sm-4 col-sm-offset-4 bannerWrapper">
-                <div className="panel panel-default banner">
+            <div className="col-sm-4 col-sm-offset-4 signup-bannerWrapper">
+                <div className="panel panel-default signup-banner">
                     <div className="panel-body">
                         <div className="panel-heading">
                             <div className="panel-title">
@@ -64,7 +64,7 @@ class SignUpPanel extends Component {
                             <div className="form-group">
                                 <button type="submit" className="btn btn-default"
                                 disabled={!(firstName && email && password && passwordconfirmation) || loading}>{
-                                    loading ? <ReactLoading type="bubbles" color="#444" height="20px" width="58px" className="loading"/> : "Registrar"
+                                    loading ? <ReactLoading type="bubbles" color="#444" height="20px" width="58px" className="signup-loading"/> : "Registrar"
                                 }</button>
                                 <span style={{color: 'red', float: 'right', fontSize: 'small'}}>* Campos Obrigatórios</span>
                             </div>

@@ -28592,15 +28592,20 @@ var login = exports.login = function login(email, password) {
             body: JSON.stringify({ email: email, password: password })
         };
 
+        dispatch({ type: 'LOADING' });
+
         fetch('/api/login', req).then(function (res) {
             return res.json();
         }).then(function (data) {
-            return console.log(data);
+            if (!data.ok) {
+                throw Error(data.msg);
+            }
+            dispatch({ type: 'LOGIN_SUCCESS', msg: data.msg });
         }).catch(function (err) {
-            return console.log(err);
+            var msg = void 0;
+            err.message == "Failed to fetch" ? msg = "Falha ao enviar solicitação" : msg = err.message;
+            dispatch({ type: 'LOGIN_FAIL', msg: msg });
         });
-
-        dispatch({ type: 'LOGIN' });
     };
 };
 
@@ -28694,6 +28699,10 @@ var authReducer = function authReducer() {
             return _extends({}, state, { loading: true });
         case 'UPDATE_FIELD':
             return _extends({}, state, _defineProperty({}, action.field.name, action.field.value));
+        case 'LOGIN_FAIL':
+            return _extends({}, state, { msg: action.msg, fail: true, success: false, loading: false });
+        case 'LOGIN_SUCCESS':
+            return _extends({}, state, { msg: action.msg, fail: false, success: true, loading: false });
         case 'SIGNUP_FAIL':
             return _extends({}, state, { msg: action.msg, fail: true, success: false, loading: false });
         case 'SIGNUP_SUCCESS':
@@ -28845,6 +28854,10 @@ var _actions = __webpack_require__(42);
 
 __webpack_require__(276);
 
+var _reactLoading = __webpack_require__(284);
+
+var _reactLoading2 = _interopRequireDefault(_reactLoading);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -28863,26 +28876,25 @@ var LoginPanel = function (_Component) {
     }
 
     _createClass(LoginPanel, [{
-        key: 'log',
-        value: function log() {
-            console.log(this.props);
-        }
-    }, {
         key: 'render',
         value: function render() {
             var _props = this.props,
                 email = _props.email,
                 password = _props.password,
                 updateField = _props.updateField,
-                login = _props.login;
+                login = _props.login,
+                msg = _props.msg,
+                fail = _props.fail,
+                success = _props.success,
+                loading = _props.loading;
 
 
             return _react2.default.createElement(
                 'div',
-                { className: 'col-sm-4 col-sm-offset-4 bannerWrapper' },
+                { className: 'col-sm-4 col-sm-offset-4 login-bannerWrapper' },
                 _react2.default.createElement(
                     'div',
-                    { className: 'panel panel-default banner' },
+                    { className: 'panel panel-default login-banner' },
                     _react2.default.createElement(
                         'div',
                         { className: 'panel-body' },
@@ -28896,18 +28908,43 @@ var LoginPanel = function (_Component) {
                                     'h2',
                                     null,
                                     'Login'
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    { className: fail ? "alert alert-danger" : "" },
+                                    _react2.default.createElement(
+                                        'span',
+                                        null,
+                                        fail ? msg : ""
+                                    )
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    { className: success ? "alert alert-success" : "" },
+                                    _react2.default.createElement(
+                                        'span',
+                                        null,
+                                        success ? msg : ""
+                                    )
                                 )
                             )
                         ),
                         _react2.default.createElement(
                             'form',
-                            null,
+                            { onSubmit: function onSubmit(e) {
+                                    return login(e);
+                                } },
                             _react2.default.createElement(
                                 'div',
                                 { className: 'form-group' },
                                 _react2.default.createElement(
                                     'label',
                                     { htmlFor: 'email' },
+                                    _react2.default.createElement(
+                                        'span',
+                                        { style: { color: 'red' } },
+                                        '* '
+                                    ),
                                     'Email'
                                 ),
                                 _react2.default.createElement('input', { name: 'email', type: 'email', className: 'form-control', id: 'email', placeholder: 'Email',
@@ -28921,6 +28958,11 @@ var LoginPanel = function (_Component) {
                                 _react2.default.createElement(
                                     'label',
                                     { htmlFor: 'password' },
+                                    _react2.default.createElement(
+                                        'span',
+                                        { style: { color: 'red' } },
+                                        '* '
+                                    ),
                                     'Senha'
                                 ),
                                 _react2.default.createElement('input', { name: 'password', type: 'password', className: 'form-control', id: 'password', placeholder: 'Senha',
@@ -28929,11 +28971,16 @@ var LoginPanel = function (_Component) {
                                     } })
                             ),
                             _react2.default.createElement(
-                                'button',
-                                { type: 'button', className: 'btn btn-default',
-                                    onClick: login,
-                                    disabled: !(email && password) },
-                                'Login'
+                                'div',
+                                { className: 'form-group' },
+                                _react2.default.createElement(
+                                    'button',
+                                    {
+                                        type: 'submit',
+                                        className: 'btn btn-default',
+                                        disabled: !(email && password) },
+                                    loading ? _react2.default.createElement(_reactLoading2.default, { type: 'bubbles', color: '#444', height: '20px', width: '35px', className: 'login-loading' }) : "Login"
+                                )
                             )
                         )
                     )
@@ -28948,7 +28995,12 @@ var LoginPanel = function (_Component) {
 var mapStateToProps = function mapStateToProps(state, ownProps) {
     return {
         email: state.auth.email,
-        password: state.auth.password
+        password: state.auth.password,
+        login: state.auth.login,
+        msg: state.auth.msg,
+        fail: state.auth.fail,
+        success: state.auth.success,
+        loading: state.auth.loading
     };
 };
 
@@ -28957,8 +29009,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
         updateField: function updateField(e) {
             return dispatch((0, _actions.updateField)(e));
         },
-        login: function login() {
-            return dispatch((0, _actions.login)(email.value, password.value));
+        login: function login(e) {
+            e.preventDefault();
+            dispatch((0, _actions.login)(email.value, password.value));
         }
     };
 };
@@ -29005,7 +29058,7 @@ exports = module.exports = __webpack_require__(32)(undefined);
 
 
 // module
-exports.push([module.i, ".banner{\r\n    color: #fff;\r\n    background-color: rgba(0, 0, 0, .25);\r\n}\r\n\r\n.bannerWrapper{\r\n    top: 50%;\r\n    transform: translateY(-50%);\r\n}\r\n\r\n.panel{\r\n    border: 0px;\r\n    margin-bottom: 20px;\r\n    box-shadow: 0px 0px 10px #000;\r\n}", ""]);
+exports.push([module.i, ".login-banner{\r\n    color: #222;\r\n    background-color: rgba(240, 240, 240, .90);\r\n}\r\n\r\n.login-bannerWrapper{\r\n    top: 50%;\r\n    transform: translateY(-50%);\r\n}\r\n\r\n.panel{\r\n    border: 0px;\r\n    margin-bottom: 20px;\r\n    box-shadow: 0px 0px 10px #000;\r\n}\r\n\r\n.login-loading{\r\n    transform: translateY(-7px);\r\n}", ""]);
 
 // exports
 
@@ -29148,7 +29201,7 @@ var _actions = __webpack_require__(42);
 
 __webpack_require__(282);
 
-var _reactLoading = __webpack_require__(298);
+var _reactLoading = __webpack_require__(284);
 
 var _reactLoading2 = _interopRequireDefault(_reactLoading);
 
@@ -29188,10 +29241,10 @@ var SignUpPanel = function (_Component) {
 
             return _react2.default.createElement(
                 'div',
-                { className: 'col-sm-4 col-sm-offset-4 bannerWrapper' },
+                { className: 'col-sm-4 col-sm-offset-4 signup-bannerWrapper' },
                 _react2.default.createElement(
                     'div',
-                    { className: 'panel panel-default banner' },
+                    { className: 'panel panel-default signup-banner' },
                     _react2.default.createElement(
                         'div',
                         { className: 'panel-body' },
@@ -29323,7 +29376,7 @@ var SignUpPanel = function (_Component) {
                                     'button',
                                     { type: 'submit', className: 'btn btn-default',
                                         disabled: !(firstName && email && password && passwordconfirmation) || loading },
-                                    loading ? _react2.default.createElement(_reactLoading2.default, { type: 'bubbles', color: '#444', height: '20px', width: '58px', className: 'loading' }) : "Registrar"
+                                    loading ? _react2.default.createElement(_reactLoading2.default, { type: 'bubbles', color: '#444', height: '20px', width: '58px', className: 'signup-loading' }) : "Registrar"
                                 ),
                                 _react2.default.createElement(
                                     'span',
@@ -29409,27 +29462,13 @@ exports = module.exports = __webpack_require__(32)(undefined);
 
 
 // module
-exports.push([module.i, ".banner{\r\n    color: #222;\r\n    background-color: rgba(240, 240, 240, .90);\r\n}\r\n\r\n.bannerWrapper{\r\n    top: 50%;\r\n    transform: translateY(-50%);\r\n}\r\n\r\n.panel{\r\n    border: 0px;\r\n    margin-bottom: 20px;\r\n    box-shadow: 0px 0px 10px #000;\r\n}\r\n\r\n.loading{\r\n    transform: translateY(-18px);\r\n}", ""]);
+exports.push([module.i, ".signup-banner{\r\n    color: #222;\r\n    background-color: rgba(240, 240, 240, .90);\r\n}\r\n\r\n.signup-bannerWrapper{\r\n    top: 50%;\r\n    transform: translateY(-50%);\r\n}\r\n\r\n.panel{\r\n    border: 0px;\r\n    margin-bottom: 20px;\r\n    box-shadow: 0px 0px 10px #000;\r\n}\r\n\r\n.signup-loading{\r\n    transform: translateY(-18px);\r\n}", ""]);
 
 // exports
 
 
 /***/ }),
-/* 284 */,
-/* 285 */,
-/* 286 */,
-/* 287 */,
-/* 288 */,
-/* 289 */,
-/* 290 */,
-/* 291 */,
-/* 292 */,
-/* 293 */,
-/* 294 */,
-/* 295 */,
-/* 296 */,
-/* 297 */,
-/* 298 */
+/* 284 */
 /***/ (function(module, exports, __webpack_require__) {
 
 (function webpackUniversalModuleDefinition(root, factory) {

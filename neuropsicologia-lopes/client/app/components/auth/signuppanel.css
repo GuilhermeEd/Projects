@@ -1,9 +1,9 @@
-.banner{
+.signup-banner{
     color: #222;
     background-color: rgba(240, 240, 240, .90);
 }
 
-.bannerWrapper{
+.signup-bannerWrapper{
     top: 50%;
     transform: translateY(-50%);
 }
@@ -14,6 +14,6 @@
     box-shadow: 0px 0px 10px #000;
 }
 
-.loading{
+.signup-loading{
     transform: translateY(-18px);
 }
