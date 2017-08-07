@@ -23,7 +23,7 @@ class LoginPanel extends Component {
                                 <div className={ success ? "alert alert-success" : ""}><span>{ success ? msg : ""}</span></div>
                             </div>
                         </div>
-                        <form onSubmit={e=> login(e)}>
+                        <form onSubmit={e=> login(e, this.props.history)}>
                             <div className="form-group">
                                 <label htmlFor="email"><span style={{color:'red'}}>* </span>Email</label>
                                 <input name="email" type="email" className="form-control" id="email" placeholder="Email"
@@ -62,9 +62,9 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
     updateField: (e) => dispatch(updateField(e)),
-    login: (e) => {
+    login: (e, history) => {
         e.preventDefault();
-        dispatch(login(email.value, password.value));
+        dispatch(login(email.value, password.value, history));
     }
 })
 

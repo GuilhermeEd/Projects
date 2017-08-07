@@ -4,7 +4,13 @@ export const updateField = (field) => {
     }
 }
 
-export const login = (email, password) => {
+export const auth = (token) => {
+    return (dispatch) => {
+        console.log(token);
+    }
+}
+
+export const login = (email, password, history) => {
     return (dispatch) => {
 
         const req = {
@@ -22,6 +28,8 @@ export const login = (email, password) => {
         .then(res => res.json())
         .then(data => {
             if(!data.ok){ throw Error(data.msg); }
+            localStorage.setItem("token", data.token);
+            history.push('/');
             dispatch({ type: 'LOGIN_SUCCESS', msg: data.msg});
         })
         .catch(err => {
