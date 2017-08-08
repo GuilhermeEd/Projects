@@ -33714,7 +33714,21 @@ var updateField = exports.updateField = function updateField(field) {
 
 var auth = exports.auth = function auth(token) {
     return function (dispatch) {
-        console.log(token);
+
+        var req = {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ token: token })
+        };
+
+        fetch('/api/auth', req).then(function (res) {
+            return res.json();
+        }).then(function (data) {
+            return console.log(data);
+        });
     };
 };
 

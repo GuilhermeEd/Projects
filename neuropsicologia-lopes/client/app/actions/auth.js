@@ -6,7 +6,20 @@ export const updateField = (field) => {
 
 export const auth = (token) => {
     return (dispatch) => {
-        console.log(token);
+
+        const req = {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({token})
+        };
+
+        fetch('/api/auth', req)
+        .then(res => res.json())
+        .then(data => console.log(data));
+
     }
 }
 

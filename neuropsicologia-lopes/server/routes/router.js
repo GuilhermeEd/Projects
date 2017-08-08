@@ -8,6 +8,10 @@ var jwt = require('jsonwebtoken');
 
 const secret = require('../server_config/variables.js').auth.jwtsecret;
 
+ const {user, pass, host, port, name} = variables.db;
+ mongoose.connect(`mongodb://${user}:${pass}@${host}:${port}/${name}`); 
+// ADD ROUTES THAT DEPENDS ON DATABASE CONNECTION DOWN HERE
+
 router.post('/api/login', function (req, res, next) {
     const {email, password} = req.body;
     User.findOne({email}, function(err, userFound){
@@ -15,16 +19,12 @@ router.post('/api/login', function (req, res, next) {
             if(!bcrypt.compareSync(req.body.password, userFound.password)){
                 return res.status(400).json({ok: false, msg: 'Email e/ou Senha inválido(s)'});
             } else {
-                const token = jwt.sign({user}, secret, {expiresIn: 7200})
+                const token = jwt.sign({user: userFound}, secret, {expiresIn: 7200})
                 res.status(200).json({ok: true, msg: 'Login efetuado com sucesso', token});
             }
         }
     });
 });
-
- const {user, pass, host, port, name} = variables.db;
- mongoose.connect(`mongodb://${user}:${pass}@${host}:${port}/${name}`); 
-// ADD ROUTES THAT DEPENDS ON DATABASE CONNECTION DOWN HERE
 
 router.post('/api/signup', function (req, res, next) {
     const {firstName, lastName, email, password} = req.body;
@@ -42,6 +42,16 @@ router.post('/api/signup', function (req, res, next) {
         }
     });
 });
+
+router.post('/api/auth', function(req, res, next){
+    jwt.verify(req.body.token, secret, function(err, decoded){
+        if(err){
+            return res.status(500).json({ok: false, msg: 'Autenticação falhou'});
+        } else {
+            return res.status(200).json(decoded);
+        }
+    });
+})
 
 router.get('/', function (req, res, next) {
     res.render('index');
