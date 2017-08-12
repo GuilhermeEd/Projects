@@ -19,7 +19,6 @@
     "mongoose": "^4.10.8",
     "mongoose-unique-validator": "^1.0.5",
     "react": "^15.6.1",
-    "react-addons-css-transition-group": "^15.6.0",
     "react-animate-on-change": "^1.0.0",
     "react-dom": "^15.6.1",
     "react-loading": "^0.1.4",
