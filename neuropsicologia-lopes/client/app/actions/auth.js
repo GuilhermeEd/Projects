@@ -4,8 +4,10 @@ export const updateField = (field) => {
     }
 }
 
-export const auth = (token) => {
+export const auth = (token, history) => {
     return (dispatch) => {
+
+        dispatch({type: 'LOADING'});
 
         const req = {
             method: 'POST',
@@ -18,13 +20,28 @@ export const auth = (token) => {
 
         fetch('/api/auth', req)
         .then(res => res.json())
-        .then(data => console.log(data));
-
+        .then(data => {
+            if(data.ok){
+                dispatch({ type: 'LOGIN_SUCCESS' });
+                localStorage.setItem("user", JSON.stringify(data.user.user));
+            } else {
+                dispatch({ type: 'LOGIN_FAIL', msg: "Entre novamente para continuar" });
+                history.push('/login');
+            }
+        })
+        .catch(err => {
+            let msg;
+            (err.message == "Failed to fetch") ? (msg = "Falha ao efetuar login") : (msg = err.message);
+            dispatch({ type: 'LOGIN_FAIL', msg});
+            history.push('/login');
+        });
     }
 }
 
 export const login = (email, password, history) => {
     return (dispatch) => {
+
+        dispatch({type: 'LOADING'});
 
         const req = {
             method: 'POST',
@@ -34,8 +51,6 @@ export const login = (email, password, history) => {
             },
             body: JSON.stringify({email, password})
         };
-
-        dispatch({type: 'LOADING'});
 
         fetch('/api/login', req)
         .then(res => res.json())

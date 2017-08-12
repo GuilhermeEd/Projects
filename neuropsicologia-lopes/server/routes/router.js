@@ -48,7 +48,7 @@ router.post('/api/auth', function(req, res, next){
         if(err){
             return res.status(500).json({ok: false, msg: 'Autenticação falhou'});
         } else {
-            return res.status(200).json(decoded);
+            return res.status(200).json({ok: true, user: decoded});
         }
     });
 })

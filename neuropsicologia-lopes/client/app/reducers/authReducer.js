@@ -12,17 +12,17 @@ const INITIAL_STATE = {
 const authReducer =  (state = INITIAL_STATE, action) => {
     switch(action.type){
         case 'LOADING':
-            return {...state, loading: true};
+            return {...state, loading: true };
         case 'UPDATE_FIELD':
-            return { ...state, [action.field.name]: action.field.value};
+            return { ...state, [action.field.name]: action.field.value };
         case 'LOGIN_FAIL':
-            return { ...state, msg: action.msg, fail: true, success: false, loading: false};
+            return { ...state, msg: action.msg, fail: true, success: false, loading: false };
         case 'LOGIN_SUCCESS':
-            return { ...state, msg: action.msg, fail: false, success: true, loading: false};
+            return { ...state, msg: action.msg, fail: false, success: true, loading: false };
         case 'SIGNUP_FAIL':
-            return { ...state, msg: action.msg, fail: true, success: false, loading: false};
+            return { ...state, msg: action.msg, fail: true, success: false, loading: false };
         case 'SIGNUP_SUCCESS':
-            return { ...state, msg: action.msg, fail: false, success: true, loading: false};
+            return { ...state, msg: action.msg, fail: false, success: true, loading: false };
         default:
             return { ...state };
     }
