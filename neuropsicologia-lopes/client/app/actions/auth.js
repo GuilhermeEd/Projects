@@ -40,7 +40,6 @@ export const auth = (token, history) => {
 
 export const login = (email, password, history) => {
     return (dispatch) => {
-
         dispatch({type: 'LOADING'});
 
         const req = {

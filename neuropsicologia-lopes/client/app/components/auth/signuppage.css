@@ -6,3 +6,8 @@ header {
     overflow: hidden;
     height: 100%
 }
+
+.signup-bannerWrapper{
+    top: 50%;
+    transform: translateY(-50%);
+}

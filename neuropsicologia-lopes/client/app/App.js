@@ -10,7 +10,6 @@ import Home from './components/home';
 import combinedReducers from './reducers';
 import LoginPage from './components/auth/loginpage';
 import SignUpPage from './components/auth/signuppage';
-import './App.css';
 
 const INITIAL_STATE = {};
 const store = createStore(combinedReducers, INITIAL_STATE, applyMiddleware(ReduxThunk));

@@ -22,6 +22,8 @@ router.post('/api/login', function (req, res, next) {
                 const token = jwt.sign({user: userFound}, secret, {expiresIn: 7200})
                 res.status(200).json({ok: true, msg: 'Login efetuado com sucesso', token});
             }
+        } else {
+            return res.status(400).json({ok: false, msg: 'Email e/ou Senha inválido(s)'});
         }
     });
 });
