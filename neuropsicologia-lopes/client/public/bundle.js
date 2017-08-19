@@ -33924,11 +33924,6 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var calendario = {
-    jan: {},
-    fev: {}
-};
-
 var hoje = new Date();
 
 var Calendar = function (_Component) {
@@ -33937,13 +33932,127 @@ var Calendar = function (_Component) {
     function Calendar() {
         _classCallCheck(this, Calendar);
 
-        return _possibleConstructorReturn(this, (Calendar.__proto__ || Object.getPrototypeOf(Calendar)).apply(this, arguments));
+        var _this = _possibleConstructorReturn(this, (Calendar.__proto__ || Object.getPrototypeOf(Calendar)).call(this));
+
+        _this.state = {
+            data: hoje,
+            calendar: [{
+                mes: 'JAN',
+                dias: 31
+            }, {
+                mes: 'FEV',
+                dias: hoje.getFullYear % 6 ? 28 : 29
+            }, {
+                mes: 'MAR',
+                dias: 31
+            }, {
+                mes: 'ABR',
+                dias: 30
+            }, {
+                mes: 'MAI',
+                dias: 31
+            }, {
+                mes: 'JUN',
+                dias: 30
+            }, {
+                mes: 'JUL',
+                dias: 31
+            }, {
+                mes: 'AGO',
+                dias: 31
+            }, {
+                mes: 'SET',
+                dias: 30
+            }, {
+                mes: 'OUT',
+                dias: 31
+            }, {
+                mes: 'NOV',
+                dias: 30
+            }, {
+                mes: 'DEZ',
+                dias: 31
+            }]
+        };
+        return _this;
     }
 
     _createClass(Calendar, [{
+        key: 'firstRow',
+        value: function firstRow() {
+            var diaComecoMes = new Date([this.state.data.getMonth() + 1, 1, this.state.data.getFullYear()]).getDay();
+            var fimMesPassado = this.state.calendar[this.state.data.getMonth()].dias;
+            var arr = [];
+            for (var i = 0; i < diaComecoMes; i++) {
+                arr.push(fimMesPassado - (diaComecoMes - i - 1));
+            }
+            return arr;
+        }
+    }, {
         key: 'render',
         value: function render() {
-            return _react2.default.createElement('div', null);
+            return _react2.default.createElement(
+                'table',
+                { className: 'table table-inverse' },
+                _react2.default.createElement(
+                    'thead',
+                    null,
+                    _react2.default.createElement(
+                        'tr',
+                        null,
+                        _react2.default.createElement(
+                            'th',
+                            null,
+                            'D'
+                        ),
+                        _react2.default.createElement(
+                            'th',
+                            null,
+                            'S'
+                        ),
+                        _react2.default.createElement(
+                            'th',
+                            null,
+                            'T'
+                        ),
+                        _react2.default.createElement(
+                            'th',
+                            null,
+                            'Q'
+                        ),
+                        _react2.default.createElement(
+                            'th',
+                            null,
+                            'Q'
+                        ),
+                        _react2.default.createElement(
+                            'th',
+                            null,
+                            'S'
+                        ),
+                        _react2.default.createElement(
+                            'th',
+                            null,
+                            'S'
+                        )
+                    )
+                ),
+                _react2.default.createElement(
+                    'tbody',
+                    null,
+                    _react2.default.createElement(
+                        'tr',
+                        null,
+                        this.firstRow().map(function (dia, i) {
+                            return _react2.default.createElement(
+                                'td',
+                                { key: parseInt(dia.toString() + i.toString()) },
+                                dia
+                            );
+                        })
+                    )
+                )
+            );
         }
     }]);
 
