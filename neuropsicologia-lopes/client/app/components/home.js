@@ -29,7 +29,7 @@ class Home extends Component {
 
         return (
                 loading ?
-                    <div className="col-xs-4 col-xs-offset-4" style={styles.offset}>
+                    <div className="col-sm-12 col-md-8 col-lg-4 mx-auto" style={styles.offset}>
                         <ReactLoading type="bubbles" color="#444" style={styles.loading}/>
                     </div>
                 : <UserPage/>

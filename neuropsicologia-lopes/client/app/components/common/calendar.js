@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
+import './calendar.css';
+
 const hoje = new Date();
 
 class Calendar extends Component{
@@ -9,7 +11,6 @@ class Calendar extends Component{
     constructor(){
         super();
         this.state = {
-            data: hoje,
             calendar: [
                 {
                     mes: 'JAN',
@@ -59,44 +60,127 @@ class Calendar extends Component{
                     mes: 'DEZ',
                     dias: 31
                 }
-            ]
+            ],
+            date: hoje,
+            days: []
         }
     }
     
-    firstRow(){
-        const diaComecoMes = new Date([
-            this.state.data.getMonth()+1 , 1,
-            this.state.data.getFullYear()
-        ]).getDay();
-        const fimMesPassado = this.state.calendar[this.state.data.getMonth()].dias;
+    componentWillMount(){
+        this.setState({days: this.getDays(hoje.getMonth()+1, hoje.getFullYear())});
+    }
+
+    getDays(month, fullyear){
+        const diaComecoMes = new Date([month , 1, fullyear]).getDay();
+        const diaFimMesPassado = this.state.calendar[month-2].dias;
+        const diaFimMes = this.state.calendar[month-1].dias;
         let arr = [];
-        for(let i = 0 ; i < diaComecoMes ; i++){
-            arr.push(fimMesPassado - (diaComecoMes - i - 1));
-        }
+        for(let i = 0 ; i < diaComecoMes ; i++) arr.unshift(diaFimMesPassado - i);
+        for(let i = 1 ; i <= diaFimMes ; i++) arr.push(i);
+        for(let i = 1 ; i <= (42 - diaComecoMes - diaFimMes) ; i++) arr.push(i);
         return arr;
     }
 
+    selectDay(day){
+        console.log(day);
+    }
+
     render(){
+
         return (
-            <table className="table table-inverse">
-                <thead>
+            <table className="table">
+                <thead className="text-center">
                     <tr>
-                        <th>D</th>
-                        <th>S</th>
-                        <th>T</th>
-                        <th>Q</th>
-                        <th>Q</th>
-                        <th>S</th>
-                        <th>S</th>
+                        <th className="text-center">D</th>
+                        <th className="text-center">S</th>
+                        <th className="text-center">T</th>
+                        <th className="text-center">Q</th>
+                        <th className="text-center">Q</th>
+                        <th className="text-center">S</th>
+                        <th className="text-center">S</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody className="text-center">
                     <tr>
-                        {
-                            this.firstRow().map(function(dia, i){
-                                return <td key={parseInt(dia.toString() + i.toString())}>{dia}</td>;
-                            })
-                        }
+                        {this.state.days.slice(0,7).map((day,i)=>{
+                            return(
+                                <td key={i+'a'}>
+                                    <button
+                                    style={day > 7 ? {color: '#bbb'} : {} }
+                                    className="date-button"
+                                    onClick={e=>this.selectDay(e.target.innerHTML)}>
+                                        {day <= 9 ? `0${day}` : day}
+                                    </button>
+                                </td>
+                            )
+                        })}
+                    </tr>
+                    <tr>
+                        {this.state.days.slice(7,14).map((day,i)=>{
+                            return(
+                                <td key={i+'b'}>
+                                    <button
+                                    className="date-button"
+                                    onClick={e=>this.selectDay(e.target.innerHTML)}>
+                                        {day <= 9 ? `0${day}` : day}
+                                    </button>
+                                </td>
+                            )
+                        })}
+                    </tr>
+                    <tr>
+                        {this.state.days.slice(14,21).map((day,i)=>{
+                            return(
+                                <td key={i+'a'}>
+                                    <button
+                                    className="date-button"
+                                    onClick={e=>this.selectDay(e.target.innerHTML)}>
+                                        {day}
+                                    </button>
+                                </td>
+                            )
+                        })}
+                    </tr>
+                    <tr>
+                        {this.state.days.slice(21,28).map((day,i)=>{
+                            return(
+                                <td key={i+'a'}>
+                                    <button
+                                    className="date-button"
+                                    onClick={e=>this.selectDay(e.target.innerHTML)}>
+                                        {day}
+                                    </button>
+                                </td>
+                            )
+                        })}
+                    </tr>
+                    <tr>
+                        {this.state.days.slice(28,35).map((day,i)=>{
+                            return(
+                                <td key={i+'a'}>
+                                    <button
+                                    style={day <= 14 ? {color: '#bbb'} : {} }
+                                    className="date-button"
+                                    onClick={e=>this.selectDay(e.target.innerHTML)}>
+                                        {(day >= 1 && day <=9)  ? `0${day}` : day}
+                                    </button>
+                                </td>
+                            )
+                        })}
+                    </tr>
+                    <tr>
+                        {this.state.days.slice(35,42).map((day,i)=>{
+                            return(
+                                <td key={i+'a'}>
+                                    <button
+                                    style={day <= 14 ? {color: '#bbb'} : {} }
+                                    className="date-button"
+                                    onClick={e=>this.selectDay(e.target.innerHTML)}>
+                                        {(day >= 1 && day <=9)  ? `0${day}` : day}
+                                    </button>
+                                </td>
+                            )
+                        })}
                     </tr>
                 </tbody>
             </table>
