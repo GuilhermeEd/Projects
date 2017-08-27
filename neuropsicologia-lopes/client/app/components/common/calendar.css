@@ -1,14 +1,19 @@
 .date-button {
     color: #444;
     background-color: rgba(0,0,0,0);
-    border: 0;
+    border: none;
+    font-size: auto;
 }
 .date-button:hover{
-    outline-style: dashed;
+    outline-style: auto;
     border-radius: 50%;
     cursor: pointer;
 }
 .date-button:focus{
-    outline-style: none;
+    outline-style: auto;
+    outline-color: #444;
     box-sizing: border-box;
+}
+.table td, .table th{
+    padding: 0;
 }

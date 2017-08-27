@@ -25,7 +25,8 @@ class Calendar extends Component{
             ],
             days: [],
             month: 0,
-            year: 0
+            year: 0,
+            selectedDay: 0
         }
     }
     
@@ -48,8 +49,21 @@ class Calendar extends Component{
         return arr;
     }
 
-    selectDay(day){
-        console.log(day);
+    selectDay(day, row){
+        if(row == 1 && day > 7){
+            let month = this.state.month == 1 ? 12 : this.state.month - 1;
+            let year = this.state.month == 1 ? this.state.year - 1 : this.state.year;
+            this.setState({selectedDay: day});
+            this.props.onPickDate(new Date([month, day, year]));
+        } else if(row >= 5 && day <= 14){
+            let month = this.state.month == 12 ? 1 : this.state.month + 1;
+            let year = this.state.month == 12 ? this.state.year + 1 : this.state.year;
+            this.setState({selectedDay: day});
+            this.props.onPickDate(new Date([month, day, year]));
+        } else {
+            this.setState({selectedDay: day});
+            this.props.onPickDate(new Date([this.state.month, day, this.state.year]));
+        }
     }
 
     prevMonth(){
@@ -94,8 +108,8 @@ class Calendar extends Component{
 
         return (
             <div>
-                <div className="row">
-                    <div className="col text-left"><button className="date-button" onClick={()=>this.prevMonth()}><i className="fa fa-arrow-left" aria-hidden="true"></i></button></div>
+                <div className="row" style={{flexWrap: 'nowrap'}}>
+                    <div style={{padding: '0'}}className="col text-left"><button className="date-button" onClick={()=>this.prevMonth()}><i className="fa fa-arrow-left" aria-hidden="true"></i></button></div>
                     <div className="col-md-auto text-center"><h4>{this.state.calendar[this.state.month-1].mes} / {this.state.year}</h4></div>
                     <div className="col text-right"><button className="date-button" onClick={()=>this.nextMonth()}><i className="fa fa-arrow-right" aria-hidden="true"></i></button></div>
                 </div>
@@ -118,9 +132,9 @@ class Calendar extends Component{
                                     return(
                                         <td key={i+'a'}>
                                             <button
-                                            style={day > 7 ? {color: '#bbb'} : {} }
+                                            style={(day>7) ? {color: '#bbb'} : {}}
                                             className="date-button"
-                                            onClick={e=>this.selectDay(e.target.innerHTML)}>
+                                            onClick={e=>this.selectDay(e.target.innerHTML, 1)}>
                                                 {day <= 9 ? `0${day}` : day}
                                             </button>
                                         </td>
@@ -133,7 +147,7 @@ class Calendar extends Component{
                                         <td key={i+'b'}>
                                             <button
                                             className="date-button"
-                                            onClick={e=>this.selectDay(e.target.innerHTML)}>
+                                            onClick={e=>this.selectDay(e.target.innerHTML, 2)}>
                                                 {day <= 9 ? `0${day}` : day}
                                             </button>
                                         </td>
@@ -146,7 +160,7 @@ class Calendar extends Component{
                                         <td key={i+'a'}>
                                             <button
                                             className="date-button"
-                                            onClick={e=>this.selectDay(e.target.innerHTML)}>
+                                            onClick={e=>this.selectDay(e.target.innerHTML, 3)}>
                                                 {day}
                                             </button>
                                         </td>
@@ -159,7 +173,7 @@ class Calendar extends Component{
                                         <td key={i+'a'}>
                                             <button
                                             className="date-button"
-                                            onClick={e=>this.selectDay(e.target.innerHTML)}>
+                                            onClick={e=>this.selectDay(e.target.innerHTML, 4)}>
                                                 {day}
                                             </button>
                                         </td>
@@ -173,7 +187,7 @@ class Calendar extends Component{
                                             <button
                                             style={day <= 14 ? {color: '#bbb'} : {} }
                                             className="date-button"
-                                            onClick={e=>this.selectDay(e.target.innerHTML)}>
+                                            onClick={e=>this.selectDay(e.target.innerHTML, 5)}>
                                                 {(day >= 1 && day <=9)  ? `0${day}` : day}
                                             </button>
                                         </td>
@@ -187,7 +201,7 @@ class Calendar extends Component{
                                             <button
                                             style={day <= 14 ? {color: '#bbb'} : {} }
                                             className="date-button"
-                                            onClick={e=>this.selectDay(e.target.innerHTML)}>
+                                            onClick={e=>this.selectDay(e.target.innerHTML, 6)}>
                                                 {(day >= 1 && day <=9)  ? `0${day}` : day}
                                             </button>
                                         </td>

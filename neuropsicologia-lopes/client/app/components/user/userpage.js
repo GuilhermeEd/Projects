@@ -16,7 +16,7 @@ render(){
                         </div>
                     </div>
                     <div className="card-body">
-                        <Calendar/>
+                        <Calendar onPickDate={(date)=>console.log(date)}/>
                     </div>
                 </div>
             </div>
