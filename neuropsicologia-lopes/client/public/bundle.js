@@ -33896,12 +33896,24 @@ var UserPage = function (_Component) {
     function UserPage() {
         _classCallCheck(this, UserPage);
 
-        return _possibleConstructorReturn(this, (UserPage.__proto__ || Object.getPrototypeOf(UserPage)).apply(this, arguments));
+        var _this = _possibleConstructorReturn(this, (UserPage.__proto__ || Object.getPrototypeOf(UserPage)).call(this));
+
+        _this.state = {
+            date: ''
+        };
+        return _this;
     }
 
     _createClass(UserPage, [{
+        key: 'onPickDate',
+        value: function onPickDate(date) {
+            this.setState({ date: date });
+        }
+    }, {
         key: 'render',
         value: function render() {
+            var _this2 = this;
+
             return _react2.default.createElement(
                 'div',
                 null,
@@ -33928,7 +33940,7 @@ var UserPage = function (_Component) {
                             'div',
                             { className: 'card-body' },
                             _react2.default.createElement(_calendar2.default, { onPickDate: function onPickDate(date) {
-                                    return console.log(date);
+                                    return _this2.onPickDate(date);
                                 } })
                         )
                     )
