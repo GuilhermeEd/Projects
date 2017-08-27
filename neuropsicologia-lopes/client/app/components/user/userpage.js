@@ -8,7 +8,7 @@ class UserPage extends Component{
 render(){
     return (
         <div>
-            <div className="col-sm-12 col-md-8 col-lg-4 mx-auto">
+            <div className="col-sm-12 col-md-8 col-lg-3 mx-auto">
                 <div className="card">
                     <div className="card-header">
                         <div className="card-title">
