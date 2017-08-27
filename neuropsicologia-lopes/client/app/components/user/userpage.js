@@ -27,7 +27,9 @@ class UserPage extends Component{
                             </div>
                         </div>
                         <div className="card-body">
-                            <Calendar onPickDate={(date)=>this.onPickDate(date)}/>
+                            <Calendar
+                                onPickDate={(date)=>this.onPickDate(date)}
+                                events={[]}/>
                         </div>
                     </div>
                 </div>

@@ -33939,9 +33939,11 @@ var UserPage = function (_Component) {
                         _react2.default.createElement(
                             'div',
                             { className: 'card-body' },
-                            _react2.default.createElement(_calendar2.default, { onPickDate: function onPickDate(date) {
+                            _react2.default.createElement(_calendar2.default, {
+                                onPickDate: function onPickDate(date) {
                                     return _this2.onPickDate(date);
-                                } })
+                                },
+                                events: [] })
                         )
                     )
                 )
@@ -34005,7 +34007,8 @@ var Calendar = function (_Component) {
             calendar: [{ mes: 'JAN', dias: 31 }, { mes: 'FEV', dias: new Date().getFullYear % 6 ? 28 : 29 }, { mes: 'MAR', dias: 31 }, { mes: 'ABR', dias: 30 }, { mes: 'MAI', dias: 31 }, { mes: 'JUN', dias: 30 }, { mes: 'JUL', dias: 31 }, { mes: 'AGO', dias: 31 }, { mes: 'SET', dias: 30 }, { mes: 'OUT', dias: 31 }, { mes: 'NOV', dias: 30 }, { mes: 'DEZ', dias: 31 }],
             days: [],
             month: 0,
-            year: 0
+            year: 0,
+            events: []
         };
         return _this;
     }
@@ -34016,7 +34019,16 @@ var Calendar = function (_Component) {
             var today = new Date();
             var month = today.getMonth() + 1;
             var year = today.getFullYear();
-            this.setState({ month: month, year: year, days: this.getDays(month, year) });
+            var events = [];
+            if (this.props.events) {
+                events = this.props.events.filter(function (date) {
+                    return date.getMonth() == today.getMonth() && date.getFullYear() == today.getFullYear();
+                });
+                events = events.map(function (date) {
+                    return date.getDate();
+                });
+            }
+            this.setState({ events: events, month: month, year: year, days: this.getDays(month, year) });
         }
     }, {
         key: 'getDays',
@@ -34058,18 +34070,39 @@ var Calendar = function (_Component) {
     }, {
         key: 'prevMonth',
         value: function prevMonth() {
-            var prevMonth = void 0;
+            var _this2 = this;
+
+            var prevMonth = void 0,
+                events = void 0;
             if (this.state.month == 1) {
                 prevMonth = 12;
                 var prevYear = this.state.year - 1;
+                if (this.props.events) {
+                    events = this.props.events.filter(function (date) {
+                        return date.getMonth() == prevMonth - 1 && date.getFullYear() == prevYear;
+                    });
+                    events = events.map(function (date) {
+                        return date.getDate();
+                    });
+                }
                 this.setState({
+                    events: events,
                     month: prevMonth,
                     year: prevYear,
                     days: this.getDays(prevMonth, prevYear)
                 });
             } else {
                 prevMonth = this.state.month - 1;
+                if (this.props.events) {
+                    events = this.props.events.filter(function (date) {
+                        return date.getMonth() == prevMonth - 1 && date.getFullYear() == _this2.state.year;
+                    });
+                    events = events.map(function (date) {
+                        return date.getDate();
+                    });
+                }
                 this.setState({
+                    events: events,
                     month: prevMonth,
                     days: this.getDays(prevMonth, this.state.year)
                 });
@@ -34078,18 +34111,39 @@ var Calendar = function (_Component) {
     }, {
         key: 'nextMonth',
         value: function nextMonth() {
-            var nextMonth = void 0;
+            var _this3 = this;
+
+            var nextMonth = void 0,
+                events = void 0;
             if (this.state.month == 12) {
                 nextMonth = 1;
                 var nextYear = this.state.year + 1;
+                if (this.props.events) {
+                    events = this.props.events.filter(function (date) {
+                        return date.getMonth() == nextMonth - 1 && date.getFullYear() == nextYear;
+                    });
+                    events = events.map(function (date) {
+                        return date.getDate();
+                    });
+                }
                 this.setState({
+                    events: events,
                     month: nextMonth,
                     year: nextYear,
                     days: this.getDays(nextMonth, nextYear)
                 });
             } else {
                 nextMonth = this.state.month + 1;
+                if (this.props.events) {
+                    events = this.props.events.filter(function (date) {
+                        return date.getMonth() == nextMonth - 1 && date.getFullYear() == _this3.state.year;
+                    });
+                    events = events.map(function (date) {
+                        return date.getDate();
+                    });
+                }
                 this.setState({
+                    events: events,
                     month: nextMonth,
                     days: this.getDays(nextMonth, this.state.year)
                 });
@@ -34098,7 +34152,7 @@ var Calendar = function (_Component) {
     }, {
         key: 'render',
         value: function render() {
-            var _this2 = this;
+            var _this4 = this;
 
             return _react2.default.createElement(
                 'div',
@@ -34112,7 +34166,7 @@ var Calendar = function (_Component) {
                         _react2.default.createElement(
                             'button',
                             { className: 'date-button', onClick: function onClick() {
-                                    return _this2.prevMonth();
+                                    return _this4.prevMonth();
                                 } },
                             _react2.default.createElement('i', { className: 'fa fa-arrow-left', 'aria-hidden': 'true' })
                         )
@@ -34134,7 +34188,7 @@ var Calendar = function (_Component) {
                         _react2.default.createElement(
                             'button',
                             { className: 'date-button', onClick: function onClick() {
-                                    return _this2.nextMonth();
+                                    return _this4.nextMonth();
                                 } },
                             _react2.default.createElement('i', { className: 'fa fa-arrow-right', 'aria-hidden': 'true' })
                         )
@@ -34211,14 +34265,14 @@ var Calendar = function (_Component) {
                                 this.state.days.slice(0, 7).map(function (day, i) {
                                     return _react2.default.createElement(
                                         'td',
-                                        { key: i + 'a' },
+                                        { key: i + 'a', style: day > 7 ? { backgroundColor: '#ddd' } : _this4.state.events.includes(day) ? { backgroundColor: '#aee' } : {} },
                                         _react2.default.createElement(
                                             'button',
                                             {
                                                 style: day > 7 ? { color: '#999' } : {},
                                                 className: 'date-button',
                                                 onClick: function onClick(e) {
-                                                    return _this2.selectDay(e.target.innerHTML, 1);
+                                                    return _this4.selectDay(e.target.innerHTML, 1);
                                                 } },
                                             day <= 9 ? '0' + day : day
                                         )
@@ -34231,13 +34285,13 @@ var Calendar = function (_Component) {
                                 this.state.days.slice(7, 14).map(function (day, i) {
                                     return _react2.default.createElement(
                                         'td',
-                                        { key: i + 'b' },
+                                        { key: i + 'b', style: _this4.state.events.includes(day) ? { backgroundColor: '#aee' } : {} },
                                         _react2.default.createElement(
                                             'button',
                                             {
                                                 className: 'date-button',
                                                 onClick: function onClick(e) {
-                                                    return _this2.selectDay(e.target.innerHTML, 2);
+                                                    return _this4.selectDay(e.target.innerHTML, 2);
                                                 } },
                                             day <= 9 ? '0' + day : day
                                         )
@@ -34250,13 +34304,13 @@ var Calendar = function (_Component) {
                                 this.state.days.slice(14, 21).map(function (day, i) {
                                     return _react2.default.createElement(
                                         'td',
-                                        { key: i + 'a' },
+                                        { key: i + 'a', style: _this4.state.events.includes(day) ? { backgroundColor: '#aee' } : {} },
                                         _react2.default.createElement(
                                             'button',
                                             {
                                                 className: 'date-button',
                                                 onClick: function onClick(e) {
-                                                    return _this2.selectDay(e.target.innerHTML, 3);
+                                                    return _this4.selectDay(e.target.innerHTML, 3);
                                                 } },
                                             day
                                         )
@@ -34269,13 +34323,13 @@ var Calendar = function (_Component) {
                                 this.state.days.slice(21, 28).map(function (day, i) {
                                     return _react2.default.createElement(
                                         'td',
-                                        { key: i + 'a' },
+                                        { key: i + 'a', style: _this4.state.events.includes(day) ? { backgroundColor: '#aee' } : {} },
                                         _react2.default.createElement(
                                             'button',
                                             {
                                                 className: 'date-button',
                                                 onClick: function onClick(e) {
-                                                    return _this2.selectDay(e.target.innerHTML, 4);
+                                                    return _this4.selectDay(e.target.innerHTML, 4);
                                                 } },
                                             day
                                         )
@@ -34288,14 +34342,14 @@ var Calendar = function (_Component) {
                                 this.state.days.slice(28, 35).map(function (day, i) {
                                     return _react2.default.createElement(
                                         'td',
-                                        { key: i + 'a' },
+                                        { key: i + 'a', style: day <= 14 ? { backgroundColor: '#ddd' } : _this4.state.events.includes(day) ? { backgroundColor: '#aee' } : {} },
                                         _react2.default.createElement(
                                             'button',
                                             {
                                                 style: day <= 14 ? { color: '#999' } : {},
                                                 className: 'date-button',
                                                 onClick: function onClick(e) {
-                                                    return _this2.selectDay(e.target.innerHTML, 5);
+                                                    return _this4.selectDay(e.target.innerHTML, 5);
                                                 } },
                                             day >= 1 && day <= 9 ? '0' + day : day
                                         )
@@ -34308,14 +34362,14 @@ var Calendar = function (_Component) {
                                 this.state.days.slice(35, 42).map(function (day, i) {
                                     return _react2.default.createElement(
                                         'td',
-                                        { key: i + 'a' },
+                                        { key: i + 'a', style: day <= 14 ? { backgroundColor: '#ddd' } : _this4.state.events.includes(day) ? { backgroundColor: '#aee' } : {} },
                                         _react2.default.createElement(
                                             'button',
                                             {
                                                 style: day <= 14 ? { color: '#999' } : {},
                                                 className: 'date-button',
                                                 onClick: function onClick(e) {
-                                                    return _this2.selectDay(e.target.innerHTML, 6);
+                                                    return _this4.selectDay(e.target.innerHTML, 6);
                                                 } },
                                             day >= 1 && day <= 9 ? '0' + day : day
                                         )

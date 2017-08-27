@@ -25,7 +25,8 @@ class Calendar extends Component{
             ],
             days: [],
             month: 0,
-            year: 0
+            year: 0,
+            events: []
         }
     }
     
@@ -33,7 +34,12 @@ class Calendar extends Component{
         const today = new Date();
         const month = today.getMonth()+1;
         const year = today.getFullYear();
-        this.setState({month,year,days: this.getDays(month, year)});
+        let events = [];
+        if(this.props.events){
+            events = this.props.events.filter(date=>date.getMonth() == today.getMonth() && date.getFullYear() == today.getFullYear());
+            events = events.map(date=>date.getDate());
+        }
+        this.setState({events,month,year,days: this.getDays(month, year)});
     }
 
     getDays(month, fullyear){
@@ -66,18 +72,28 @@ class Calendar extends Component{
     }
 
     prevMonth(){
-        let prevMonth;
+        let prevMonth, events;
         if(this.state.month == 1) {
             prevMonth = 12;
             let prevYear = this.state.year - 1;
+            if(this.props.events){
+                events = this.props.events.filter(date=>date.getMonth() == prevMonth-1 && date.getFullYear() == prevYear);
+                events = events.map(date=>date.getDate());
+            }
             this.setState({
+                events,
                 month: prevMonth,
                 year: prevYear,
                 days: this.getDays(prevMonth,prevYear)
             });
         } else {
             prevMonth = this.state.month - 1;
+            if(this.props.events){
+                events = this.props.events.filter(date=>date.getMonth() == prevMonth-1 && date.getFullYear() == this.state.year);
+                events = events.map(date=>date.getDate());
+            }
             this.setState({
+                events,
                 month: prevMonth,
                 days: this.getDays(prevMonth,this.state.year)
             });
@@ -85,18 +101,28 @@ class Calendar extends Component{
     }
 
     nextMonth(){
-        let nextMonth;
+        let nextMonth, events;
         if(this.state.month == 12) {
             nextMonth = 1;
             let nextYear = this.state.year + 1;
+            if(this.props.events){
+                events = this.props.events.filter(date=>date.getMonth() == nextMonth-1 && date.getFullYear() == nextYear);
+                events = events.map(date=>date.getDate());
+            }
             this.setState({
+                events,
                 month: nextMonth,
                 year: nextYear,
                 days: this.getDays(nextMonth,nextYear)
             });
         } else {
             nextMonth = this.state.month + 1;
+            if(this.props.events){
+                events = this.props.events.filter(date=>date.getMonth() == nextMonth-1 && date.getFullYear() == this.state.year);
+                events = events.map(date=>date.getDate());
+            }
             this.setState({
+                events,
                 month: nextMonth,
                 days: this.getDays(nextMonth,this.state.year)
             });
@@ -104,7 +130,6 @@ class Calendar extends Component{
     }
 
     render(){
-
         return (
             <div>
                 <div className="row" style={{flexWrap: 'nowrap'}}>
@@ -132,7 +157,9 @@ class Calendar extends Component{
                             <tr>
                                 {this.state.days.slice(0,7).map((day,i)=>{
                                     return(
-                                        <td key={i+'a'}>
+                                        <td key={i+'a'} style={(day>7) ? {backgroundColor: '#ddd'} : (
+                                                this.state.events.includes(day) ? {backgroundColor: '#aee'} : {}
+                                            )}>
                                             <button
                                             style={(day>7) ? {color: '#999'} : {}}
                                             className="date-button"
@@ -146,7 +173,7 @@ class Calendar extends Component{
                             <tr>
                                 {this.state.days.slice(7,14).map((day,i)=>{
                                     return(
-                                        <td key={i+'b'}>
+                                        <td key={i+'b'} style={this.state.events.includes(day) ? {backgroundColor: '#aee'} : {}}>
                                             <button
                                             className="date-button"
                                             onClick={e=>this.selectDay(e.target.innerHTML, 2)}>
@@ -159,7 +186,7 @@ class Calendar extends Component{
                             <tr>
                                 {this.state.days.slice(14,21).map((day,i)=>{
                                     return(
-                                        <td key={i+'a'}>
+                                        <td key={i+'a'} style={this.state.events.includes(day) ? {backgroundColor: '#aee'} : {}}>
                                             <button
                                             className="date-button"
                                             onClick={e=>this.selectDay(e.target.innerHTML, 3)}>
@@ -172,7 +199,7 @@ class Calendar extends Component{
                             <tr>
                                 {this.state.days.slice(21,28).map((day,i)=>{
                                     return(
-                                        <td key={i+'a'}>
+                                        <td key={i+'a'} style={this.state.events.includes(day) ? {backgroundColor: '#aee'} : {}}>
                                             <button
                                             className="date-button"
                                             onClick={e=>this.selectDay(e.target.innerHTML, 4)}>
@@ -185,7 +212,9 @@ class Calendar extends Component{
                             <tr>
                                 {this.state.days.slice(28,35).map((day,i)=>{
                                     return(
-                                        <td key={i+'a'}>
+                                        <td key={i+'a'} style={(day<=14) ? {backgroundColor: '#ddd'} : (
+                                            this.state.events.includes(day) ? {backgroundColor: '#aee'} : {}
+                                        )}>
                                             <button
                                             style={day <= 14 ? {color: '#999'} : {} }
                                             className="date-button"
@@ -199,7 +228,9 @@ class Calendar extends Component{
                             <tr>
                                 {this.state.days.slice(35,42).map((day,i)=>{
                                     return(
-                                        <td key={i+'a'}>
+                                        <td key={i+'a'} style={(day<=14) ? {backgroundColor: '#ddd'} : (
+                                            this.state.events.includes(day) ? {backgroundColor: '#aee'} : {}
+                                            )}>
                                             <button
                                             style={day <= 14 ? {color: '#999'} : {} }
                                             className="date-button"
