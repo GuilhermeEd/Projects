@@ -33899,12 +33899,23 @@ var UserPage = function (_Component) {
         var _this = _possibleConstructorReturn(this, (UserPage.__proto__ || Object.getPrototypeOf(UserPage)).call(this));
 
         _this.state = {
-            date: ''
+            date: '',
+            events: ['ev1', 'ev2', 'ev3', '...']
         };
         return _this;
     }
 
     _createClass(UserPage, [{
+        key: 'formatDate',
+        value: function formatDate(date) {
+            var day = date.getDate();
+            var month = date.getMonth() + 1;
+            var year = date.getYear();
+            if (day < 10) day = "0" + day;
+            if (month < 10) month = "0" + month;
+            return day + '/' + month + '/' + year;
+        }
+    }, {
         key: 'onPickDate',
         value: function onPickDate(date) {
             this.setState({ date: date });
@@ -33919,31 +33930,71 @@ var UserPage = function (_Component) {
                 null,
                 _react2.default.createElement(
                     'div',
-                    { className: 'col-sm-12 col-md-8 col-lg-3 mx-auto' },
+                    { className: 'container-fluid' },
                     _react2.default.createElement(
                         'div',
-                        { className: 'card' },
+                        { className: 'row' },
                         _react2.default.createElement(
                             'div',
-                            { className: 'card-header' },
+                            { name: 'Calendar', className: 'col-sm-12 col-md-6 col-lg-3' },
                             _react2.default.createElement(
                                 'div',
-                                { className: 'card-title' },
+                                { className: 'card' },
                                 _react2.default.createElement(
-                                    'h2',
-                                    { className: 'text-center' },
-                                    'Calend\xE1rio'
+                                    'div',
+                                    { className: 'card-header' },
+                                    _react2.default.createElement(
+                                        'div',
+                                        { className: 'card-title' },
+                                        _react2.default.createElement(
+                                            'h2',
+                                            { className: 'text-center' },
+                                            'Calend\xE1rio'
+                                        )
+                                    )
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    { className: 'card-body' },
+                                    _react2.default.createElement(_calendar2.default, {
+                                        onPickDate: function onPickDate(date) {
+                                            return _this2.onPickDate(date);
+                                        },
+                                        events: [] })
                                 )
                             )
                         ),
                         _react2.default.createElement(
                             'div',
-                            { className: 'card-body' },
-                            _react2.default.createElement(_calendar2.default, {
-                                onPickDate: function onPickDate(date) {
-                                    return _this2.onPickDate(date);
-                                },
-                                events: [] })
+                            { className: 'col-sm-12 col-md-6 col-lg-9' },
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'card' },
+                                _react2.default.createElement(
+                                    'div',
+                                    { className: 'card-header' },
+                                    _react2.default.createElement(
+                                        'div',
+                                        { className: 'card-title' },
+                                        _react2.default.createElement(
+                                            'h2',
+                                            { className: 'text-center' },
+                                            this.state.date ? this.formatDate(this.state.date) : 'Selecione um dia'
+                                        )
+                                    )
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    { className: 'card-body' },
+                                    this.state.events.map(function (ev) {
+                                        return _react2.default.createElement(
+                                            'li',
+                                            { key: ev },
+                                            ev
+                                        );
+                                    })
+                                )
+                            )
                         )
                     )
                 )
