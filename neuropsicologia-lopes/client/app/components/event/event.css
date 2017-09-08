@@ -1,0 +1,27 @@
+.event-container{
+    margin-bottom: 5px;
+}
+
+.event-container:hover{
+    cursor: pointer;
+    background-color: rgba(0,0,0,.03);
+    border-radius: 5px;
+    outline-style: auto;
+    outline-color: rgba(0,0,0,.3);
+}
+
+.event-title{
+
+}
+
+.event-client{
+    margin-bottom: 0px;
+}
+
+.event-time{
+    margin-bottom: 0px;
+}
+
+.event-desc{
+    margin-bottom: 0px;
+}

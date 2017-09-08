@@ -2,14 +2,26 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import Calendar from '../common/calendar';
-
+import './userpage.css';
+import Event from '../event/event.js';
 class UserPage extends Component{
 
     constructor(){
         super();
         this.state = ({
             date: '',
-            events: ['ev1','ev2','ev3','...']
+            events: [{
+                title: 'Evento 1',
+                client: 'João',
+                time: '12:00',
+                desc: 'Lorem ipsum...'
+            },
+            {
+                title: 'Evento 2',
+                client: 'Maria',
+                time: '12:30',
+                desc: 'Lorem ipsum...'
+            }]
         });
     }
 
@@ -24,6 +36,10 @@ class UserPage extends Component{
 
     onPickDate(date){
         this.setState({date});
+    }
+
+    onEventClick(ev){
+        console.log(ev);
     }
 
     render(){
@@ -53,11 +69,19 @@ class UserPage extends Component{
                                     </div>
                                 </div>
                                 <div className="card-body">
-                                    {
-                                        this.state.events.map(ev=>{
-                                            return <li key={ev}>{ev}</li>
-                                        })
-                                    }
+                                    <ul className="list-group list-group-flush">
+                                        {
+                                            this.state.events.map((ev,i)=>{
+                                            return <Event
+                                                    key={i}
+                                                    title={ev.title}
+                                                    client={ev.client}
+                                                    time={ev.time}
+                                                    desc={ev.desc}
+                                                    onEventClick={()=>this.onEventClick(ev)}/>
+                                            })
+                                        }
+                                    </ul>
                                 </div>
                             </div>
                         </div>

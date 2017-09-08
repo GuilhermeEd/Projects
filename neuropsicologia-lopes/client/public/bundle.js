@@ -33882,6 +33882,12 @@ var _calendar = __webpack_require__(273);
 
 var _calendar2 = _interopRequireDefault(_calendar);
 
+__webpack_require__(287);
+
+var _event = __webpack_require__(289);
+
+var _event2 = _interopRequireDefault(_event);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -33900,7 +33906,17 @@ var UserPage = function (_Component) {
 
         _this.state = {
             date: '',
-            events: ['ev1', 'ev2', 'ev3', '...']
+            events: [{
+                title: 'Evento 1',
+                client: 'João',
+                time: '12:00',
+                desc: 'Lorem ipsum...'
+            }, {
+                title: 'Evento 2',
+                client: 'Maria',
+                time: '12:30',
+                desc: 'Lorem ipsum...'
+            }]
         };
         return _this;
     }
@@ -33919,6 +33935,11 @@ var UserPage = function (_Component) {
         key: 'onPickDate',
         value: function onPickDate(date) {
             this.setState({ date: date });
+        }
+    }, {
+        key: 'onEventClick',
+        value: function onEventClick(ev) {
+            console.log(ev);
         }
     }, {
         key: 'render',
@@ -33986,13 +34007,21 @@ var UserPage = function (_Component) {
                                 _react2.default.createElement(
                                     'div',
                                     { className: 'card-body' },
-                                    this.state.events.map(function (ev) {
-                                        return _react2.default.createElement(
-                                            'li',
-                                            { key: ev },
-                                            ev
-                                        );
-                                    })
+                                    _react2.default.createElement(
+                                        'ul',
+                                        { className: 'list-group list-group-flush' },
+                                        this.state.events.map(function (ev, i) {
+                                            return _react2.default.createElement(_event2.default, {
+                                                key: i,
+                                                title: ev.title,
+                                                client: ev.client,
+                                                time: ev.time,
+                                                desc: ev.desc,
+                                                onEventClick: function onEventClick() {
+                                                    return _this2.onEventClick(ev);
+                                                } });
+                                        })
+                                    )
                                 )
                             )
                         )
@@ -34316,7 +34345,7 @@ var Calendar = function (_Component) {
                                 this.state.days.slice(0, 7).map(function (day, i) {
                                     return _react2.default.createElement(
                                         'td',
-                                        { key: i + 'a', style: day > 7 ? { backgroundColor: '#ddd' } : _this4.state.events.includes(day) ? { backgroundColor: '#aee' } : {} },
+                                        { key: i + 'a', style: day > 7 ? { backgroundColor: 'rgba(0,0,0,.03)' } : _this4.state.events.includes(day) ? { backgroundColor: '#fff' } : {} },
                                         _react2.default.createElement(
                                             'button',
                                             {
@@ -34393,7 +34422,7 @@ var Calendar = function (_Component) {
                                 this.state.days.slice(28, 35).map(function (day, i) {
                                     return _react2.default.createElement(
                                         'td',
-                                        { key: i + 'a', style: day <= 14 ? { backgroundColor: '#ddd' } : _this4.state.events.includes(day) ? { backgroundColor: '#aee' } : {} },
+                                        { key: i + 'a', style: day <= 14 ? { backgroundColor: 'rgba(0,0,0,.03)' } : _this4.state.events.includes(day) ? { backgroundColor: '#aee' } : {} },
                                         _react2.default.createElement(
                                             'button',
                                             {
@@ -34413,7 +34442,7 @@ var Calendar = function (_Component) {
                                 this.state.days.slice(35, 42).map(function (day, i) {
                                     return _react2.default.createElement(
                                         'td',
-                                        { key: i + 'a', style: day <= 14 ? { backgroundColor: '#ddd' } : _this4.state.events.includes(day) ? { backgroundColor: '#aee' } : {} },
+                                        { key: i + 'a', style: day <= 14 ? { backgroundColor: 'rgba(0,0,0,.03)' } : _this4.state.events.includes(day) ? { backgroundColor: '#aee' } : {} },
                                         _react2.default.createElement(
                                             'button',
                                             {
@@ -35251,6 +35280,203 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
 };
 
 exports.default = (0, _reactRouterDom.withRouter)((0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(SignUpPanel));
+
+/***/ }),
+/* 287 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(288);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// Prepare cssTransformation
+var transform;
+
+var options = {}
+options.transform = transform
+// add the styles to the DOM
+var update = __webpack_require__(33)(content, options);
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../../../node_modules/css-loader/index.js!./userpage.css", function() {
+			var newContent = require("!!../../../../node_modules/css-loader/index.js!./userpage.css");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 288 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(32)(undefined);
+// imports
+
+
+// module
+exports.push([module.i, "", ""]);
+
+// exports
+
+
+/***/ }),
+/* 289 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(4);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRedux = __webpack_require__(17);
+
+var _reactRouterDom = __webpack_require__(18);
+
+__webpack_require__(290);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Event = function (_Component) {
+    _inherits(Event, _Component);
+
+    function Event() {
+        _classCallCheck(this, Event);
+
+        return _possibleConstructorReturn(this, (Event.__proto__ || Object.getPrototypeOf(Event)).apply(this, arguments));
+    }
+
+    _createClass(Event, [{
+        key: 'render',
+        value: function render() {
+            var _this2 = this;
+
+            return _react2.default.createElement(
+                'li',
+                { className: 'list-group-item event-container', onClick: function onClick() {
+                        return _this2.props.onEventClick();
+                    } },
+                _react2.default.createElement(
+                    'div',
+                    { className: 'row' },
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'col-sm-12' },
+                        _react2.default.createElement(
+                            'h5',
+                            { className: 'event-title' },
+                            this.props.title
+                        )
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'col-auto' },
+                        _react2.default.createElement(
+                            'p',
+                            { className: 'event-client' },
+                            this.props.client
+                        )
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'col-auto' },
+                        _react2.default.createElement(
+                            'i',
+                            { className: 'fa fa-clock-o event-time', 'aria-hidden': 'true' },
+                            this.props.time
+                        )
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'col-sm-12' },
+                        _react2.default.createElement(
+                            'p',
+                            { className: 'event-desc text-justify' },
+                            this.props.desc
+                        )
+                    )
+                )
+            );
+        }
+    }]);
+
+    return Event;
+}(_react.Component);
+
+var mapStateToProps = function mapStateToProps(state, ownProps) {
+    return {};
+};
+
+var mapDisatchToProps = function mapDisatchToProps(dispatch, ownProps) {
+    return {};
+};
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDisatchToProps)(Event);
+
+/***/ }),
+/* 290 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(291);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// Prepare cssTransformation
+var transform;
+
+var options = {}
+options.transform = transform
+// add the styles to the DOM
+var update = __webpack_require__(33)(content, options);
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../../../node_modules/css-loader/index.js!./event.css", function() {
+			var newContent = require("!!../../../../node_modules/css-loader/index.js!./event.css");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 291 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(32)(undefined);
+// imports
+
+
+// module
+exports.push([module.i, ".event-container{\r\n    margin-bottom: 5px;\r\n}\r\n\r\n.event-container:hover{\r\n    cursor: pointer;\r\n    background-color: rgba(0,0,0,.03);\r\n    border-radius: 5px;\r\n    outline-style: auto;\r\n    outline-color: rgba(0,0,0,.3);\r\n}\r\n\r\n.event-title{\r\n\r\n}\r\n\r\n.event-client{\r\n    margin-bottom: 0px;\r\n}\r\n\r\n.event-time{\r\n    margin-bottom: 0px;\r\n}\r\n\r\n.event-desc{\r\n    margin-bottom: 0px;\r\n}", ""]);
+
+// exports
+
 
 /***/ })
 /******/ ]);

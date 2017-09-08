@@ -157,8 +157,8 @@ class Calendar extends Component{
                             <tr>
                                 {this.state.days.slice(0,7).map((day,i)=>{
                                     return(
-                                        <td key={i+'a'} style={(day>7) ? {backgroundColor: '#ddd'} : (
-                                                this.state.events.includes(day) ? {backgroundColor: '#aee'} : {}
+                                        <td key={i+'a'} style={(day>7) ? {backgroundColor: 'rgba(0,0,0,.03)'} : (
+                                                this.state.events.includes(day) ? {backgroundColor: '#fff'} : {}
                                             )}>
                                             <button
                                             style={(day>7) ? {color: '#999'} : {}}
@@ -212,7 +212,7 @@ class Calendar extends Component{
                             <tr>
                                 {this.state.days.slice(28,35).map((day,i)=>{
                                     return(
-                                        <td key={i+'a'} style={(day<=14) ? {backgroundColor: '#ddd'} : (
+                                        <td key={i+'a'} style={(day<=14) ? {backgroundColor: 'rgba(0,0,0,.03)'} : (
                                             this.state.events.includes(day) ? {backgroundColor: '#aee'} : {}
                                         )}>
                                             <button
@@ -228,7 +228,7 @@ class Calendar extends Component{
                             <tr>
                                 {this.state.days.slice(35,42).map((day,i)=>{
                                     return(
-                                        <td key={i+'a'} style={(day<=14) ? {backgroundColor: '#ddd'} : (
+                                        <td key={i+'a'} style={(day<=14) ? {backgroundColor: 'rgba(0,0,0,.03)'} : (
                                             this.state.events.includes(day) ? {backgroundColor: '#aee'} : {}
                                             )}>
                                             <button
