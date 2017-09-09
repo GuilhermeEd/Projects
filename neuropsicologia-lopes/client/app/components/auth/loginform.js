@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-import { updateField, login } from '../../actions';
+import { updateField, login } from '../../actions/auth'
 import './loginform.css';
 import ReactLoading from 'react-loading';
 

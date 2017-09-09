@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-import { action } from '../../actions';
 import './loginpage.css';
 import LoginForm from './loginform.js';
 
@@ -37,10 +36,8 @@ const mapStateToProps = (state, ownProps) => ({
     fail: state.auth.fail,
     success: state.auth.success,
     msg: state.auth.msg
-})
+});
 
-const mapDispatchToProps = (dispatch, ownProps) => {
-    return { action }
-}
+const mapDispatchToProps = (dispatch, ownProps) => ({});
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(LoginPage));

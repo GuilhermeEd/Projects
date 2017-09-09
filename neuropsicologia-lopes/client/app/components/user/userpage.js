@@ -4,24 +4,15 @@ import { withRouter } from 'react-router-dom';
 import Calendar from '../common/calendar';
 import './userpage.css';
 import Event from '../event/event.js';
+import NewEventModal from '../event/neweventmodal.js';
+
 class UserPage extends Component{
 
     constructor(){
         super();
         this.state = ({
             date: '',
-            events: [{
-                title: 'Evento 1',
-                client: 'João',
-                time: '12:00',
-                desc: 'Lorem ipsum...'
-            },
-            {
-                title: 'Evento 2',
-                client: 'Maria',
-                time: '12:30',
-                desc: 'Lorem ipsum...'
-            }]
+            events: []
         });
     }
 
@@ -36,6 +27,7 @@ class UserPage extends Component{
 
     onPickDate(date){
         this.setState({date});
+        
     }
 
     onEventClick(ev){
@@ -65,13 +57,14 @@ class UserPage extends Component{
                             <div className="card">
                                 <div className="card-header">
                                     <div className="card-title">
-                                        <h2 className="text-center">{this.state.date ? this.formatDate(this.state.date) : 'Selecione um dia'}</h2>
+                                        <h2 style={{float: 'left', display: 'inline-block'}}>{this.state.date ? this.formatDate(this.state.date) : 'Selecione um dia'}</h2>
+                                        <NewEventModal/>
                                     </div>
                                 </div>
                                 <div className="card-body">
                                     <ul className="list-group list-group-flush">
                                         {
-                                            this.state.events.map((ev,i)=>{
+                                            this.state.events ? 'Nenhum evento para esse dia...' : this.state.events.map((ev,i)=>{
                                             return <Event
                                                     key={i}
                                                     title={ev.title}
@@ -98,7 +91,7 @@ const mapStateToProps = (state, ownProps) => ({
 });
 
 const mapDisatchToProps = (dispatch, ownProps) => ({
-
+    presentNewEventModal: () => dispatch(present())
 });
 
 export default connect(mapStateToProps, mapDisatchToProps)(UserPage);

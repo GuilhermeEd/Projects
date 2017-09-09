@@ -30,7 +30,8 @@ router.post('/api/login', function (req, res, next) {
 
 router.post('/api/signup', function (req, res, next) {
     const {firstName, lastName, email, password} = req.body;
-    const user = new User({firstName, lastName: lastName, email, password: bcrypt.hashSync(password, 10)});
+    if(password.length < 4) return res.status(400).json({ok: false, msg: 'Senha deve ter ao menos 4 caracteres'});
+    const user = new User({firstName, lastName: lastName, email, password: bcrypt.hashSync(password, 10), events: []});
     User.findOne({email}, function(err, userFound){
         if(userFound){
             return res.status(400).json({ok: false, msg: 'Usuário já existe para esse email'});
@@ -39,7 +40,8 @@ router.post('/api/signup', function (req, res, next) {
                 if(err) {
                     return res.status(400).json({ok: false, msg: 'Erro ao cadastrar usuário'});
                 }
-                res.status(200).json({ok: true, msg: 'Usuário cadastrado com sucesso'});
+                const token = jwt.sign({user}, secret, {expiresIn: 7200});
+                res.status(200).json({ok: true, msg: 'Usuário cadastrado com sucesso', token});
             });
         }
     });

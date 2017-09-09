@@ -25,7 +25,7 @@ export const auth = (token, history) => {
                 dispatch({ type: 'LOGIN_SUCCESS' });
                 localStorage.setItem("user", JSON.stringify(data.user.user));
             } else {
-                dispatch({ type: 'LOGIN_FAIL', msg: "Entre novamente para continuar" });
+                dispatch({ type: 'LOGIN_FAIL', msg: "Entre para continuar" });
                 history.push('/login');
             }
         })
@@ -67,7 +67,7 @@ export const login = (email, password, history) => {
     }
 }
 
-export const signup = (firstName, lastName, email, password, passwordconfirmation) => {
+export const signup = (firstName, lastName, email, password, passwordconfirmation, history) => {
     return (dispatch) => {
         if( !(password == passwordconfirmation) ){
             return dispatch({ type: 'SIGNUP_FAIL', msg: 'Senhas não conferem'});
@@ -87,7 +87,9 @@ export const signup = (firstName, lastName, email, password, passwordconfirmatio
         fetch('/api/signup', req)
         .then(res => res.json())
         .then(data => {
-            if(!data.ok){ throw Error(data.msg); }
+            if(!data.ok){ throw Error(data.msg);}
+            localStorage.setItem("token", data.token);
+            history.push('/');
             dispatch({ type: 'SIGNUP_SUCCESS', msg: data.msg});
         })
         .catch(err => {

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-import { updateField, signup } from '../../actions';
+import { updateField, signup } from '../../actions/auth'
 import './signupform.css';
 import ReactLoading from 'react-loading';
 
@@ -18,11 +18,12 @@ class SignUpPanel extends Component {
             passwordconfirmation,
             updateField,
             signup,
-            loading
+            loading,
+            history
         } = this.props;
 
         return (
-            <form onSubmit={e=> signup(e)}>
+            <form onSubmit={e=> signup(e, history)}>
                 <div className="form-group">
                     <label htmlFor="firstName"><span style={{color:'red'}}>* </span>Nome</label>
                     <input name="firstName" type="text" className="form-control" id="firstName" placeholder="Nome"
@@ -71,9 +72,9 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
     updateField: (e) => dispatch(updateField(e)),
-    signup: (e) => {
+    signup: (e, history) => {
         e.preventDefault();
-        dispatch(signup(firstName.value, lastName.value, email.value, password.value, passwordconfirmation.value));
+        dispatch(signup(firstName.value, lastName.value, email.value, password.value, passwordconfirmation.value, history));
     }
 })
 

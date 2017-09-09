@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-import { auth } from '../actions';
+import { auth } from '../actions/auth';
 import ReactLoading from 'react-loading';
 import UserPage from './user/userpage';
 
