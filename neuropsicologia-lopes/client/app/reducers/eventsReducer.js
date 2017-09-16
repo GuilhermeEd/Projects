@@ -20,6 +20,10 @@ const eventsReducer = (state = INITIAL_STATE, action) => {
             return {...state, loading: false, active: false};
         case 'PRESENT_MODAL':
             return {...state, loading: false, active: true};
+        case 'EVENT_CREATE_SUCCESS':
+            return {...state, loading: false, success: true, fail: false, msg: action.msg}
+        case 'EVENT_CREATE_FAIL':
+            return {...state, loading: false, success: false, fail: true, msg: action.msg}
         default:
             return { ...state };
     }

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Redirect } from 'react-router-dom';
 
 import { auth } from '../actions/auth';
 import ReactLoading from 'react-loading';
@@ -32,7 +32,7 @@ class Home extends Component {
                     <div className="col-sm-12 col-md-8 col-lg-4 mx-auto" style={styles.offset}>
                         <ReactLoading type="bubbles" color="#444" style={styles.loading}/>
                     </div>
-                : <UserPage/>
+                : <Redirect to="/userpage"/>
         );
     }
 }
