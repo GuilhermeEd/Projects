@@ -1,12 +1,13 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { withRouter, Link } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 
 import { updateField, dismiss, present, newEvent } from "../../actions/events";
 import "./neweventmodal.css";
 import ReactLoading from "react-loading";
 import { auth } from '../../actions/auth';
 import LoginPage from '../auth/loginpage';
+import LoginModal from '../auth/loginmodal';
 class NewEventModal extends Component {
 
 	componentDidMount(){
@@ -50,8 +51,8 @@ class NewEventModal extends Component {
 
     return (
       <div>
-				<div style={msg == 'Autenticação falhou' ? {display:'block'} : {display:'none'}}>
-					LOGIN AGAIN MODAL HERE!
+				<div style={msg == 'Autenticação falhou' ? {} : {display:'none'}}>
+					<LoginModal/>
 				</div>
         <button
           onClick={() => present()}

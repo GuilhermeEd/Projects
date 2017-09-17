@@ -23,6 +23,8 @@ const authReducer =  (state = INITIAL_STATE, action) => {
             return { ...state, msg: action.msg, fail: true, success: false, loading: false };
         case 'SIGNUP_SUCCESS':
             return { ...state, msg: action.msg, fail: false, success: true, loading: false };
+        case 'SESSION_EXPIRED':
+            return { ...state, msg: '', fail: true, success: false, loading: false}
         default:
             return { ...state };
     }
