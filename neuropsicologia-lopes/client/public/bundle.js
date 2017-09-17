@@ -33855,7 +33855,7 @@ exports.default = (0, _reactRouterDom.withRouter)((0, _reactRedux.connect)(mapSt
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -33891,144 +33891,148 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var UserPage = function (_Component) {
-    _inherits(UserPage, _Component);
+  _inherits(UserPage, _Component);
 
-    function UserPage() {
-        _classCallCheck(this, UserPage);
+  function UserPage() {
+    _classCallCheck(this, UserPage);
 
-        var _this = _possibleConstructorReturn(this, (UserPage.__proto__ || Object.getPrototypeOf(UserPage)).call(this));
+    var _this = _possibleConstructorReturn(this, (UserPage.__proto__ || Object.getPrototypeOf(UserPage)).call(this));
 
-        _this.state = {
-            date: '',
-            events: []
-        };
-        return _this;
+    _this.state = {
+      date: "",
+      events: []
+    };
+    return _this;
+  }
+
+  _createClass(UserPage, [{
+    key: "formatDate",
+    value: function formatDate(date) {
+      var day = date.getDate();
+      var month = date.getMonth() + 1;
+      var year = date.getYear();
+      if (day < 10) day = "0" + day;
+      if (month < 10) month = "0" + month;
+      return day + "/" + month + "/" + year;
     }
+  }, {
+    key: "onPickDate",
+    value: function onPickDate(date) {
+      this.setState({ date: date });
+    }
+  }, {
+    key: "onEventClick",
+    value: function onEventClick(ev) {
+      console.log(ev);
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this2 = this;
 
-    _createClass(UserPage, [{
-        key: 'formatDate',
-        value: function formatDate(date) {
-            var day = date.getDate();
-            var month = date.getMonth() + 1;
-            var year = date.getYear();
-            if (day < 10) day = "0" + day;
-            if (month < 10) month = "0" + month;
-            return day + '/' + month + '/' + year;
-        }
-    }, {
-        key: 'onPickDate',
-        value: function onPickDate(date) {
-            this.setState({ date: date });
-        }
-    }, {
-        key: 'onEventClick',
-        value: function onEventClick(ev) {
-            console.log(ev);
-        }
-    }, {
-        key: 'render',
-        value: function render() {
-            var _this2 = this;
-
-            return _react2.default.createElement(
-                'div',
-                null,
+      return _react2.default.createElement(
+        "div",
+        null,
+        _react2.default.createElement(
+          "div",
+          { className: "container-fluid" },
+          _react2.default.createElement(
+            "div",
+            { className: "row" },
+            _react2.default.createElement(
+              "div",
+              { name: "Calendar", className: "col-sm-12 col-md-6 col-lg-3" },
+              _react2.default.createElement(
+                "div",
+                { className: "card" },
                 _react2.default.createElement(
-                    'div',
-                    { className: 'container-fluid' },
+                  "div",
+                  { className: "card-header" },
+                  _react2.default.createElement(
+                    "div",
+                    { className: "card-title" },
                     _react2.default.createElement(
-                        'div',
-                        { className: 'row' },
-                        _react2.default.createElement(
-                            'div',
-                            { name: 'Calendar', className: 'col-sm-12 col-md-6 col-lg-3' },
-                            _react2.default.createElement(
-                                'div',
-                                { className: 'card' },
-                                _react2.default.createElement(
-                                    'div',
-                                    { className: 'card-header' },
-                                    _react2.default.createElement(
-                                        'div',
-                                        { className: 'card-title' },
-                                        _react2.default.createElement(
-                                            'h2',
-                                            { className: 'text-center' },
-                                            'Calend\xE1rio'
-                                        )
-                                    )
-                                ),
-                                _react2.default.createElement(
-                                    'div',
-                                    { className: 'card-body' },
-                                    _react2.default.createElement(_calendar2.default, {
-                                        onPickDate: function onPickDate(date) {
-                                            return _this2.onPickDate(date);
-                                        },
-                                        events: [] })
-                                )
-                            )
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            { className: 'col-sm-12 col-md-6 col-lg-9' },
-                            _react2.default.createElement(
-                                'div',
-                                { className: 'card' },
-                                _react2.default.createElement(
-                                    'div',
-                                    { className: 'card-header' },
-                                    _react2.default.createElement(
-                                        'div',
-                                        { className: 'card-title' },
-                                        _react2.default.createElement(
-                                            'h2',
-                                            { style: { float: 'left', display: 'inline-block' } },
-                                            this.state.date ? this.formatDate(this.state.date) : 'Selecione um dia'
-                                        ),
-                                        _react2.default.createElement(_neweventmodal2.default, null)
-                                    )
-                                ),
-                                _react2.default.createElement(
-                                    'div',
-                                    { className: 'card-body' },
-                                    _react2.default.createElement(
-                                        'ul',
-                                        { className: 'list-group list-group-flush' },
-                                        this.state.events ? 'Nenhum evento para esse dia...' : this.state.events.map(function (ev, i) {
-                                            return _react2.default.createElement(_event2.default, {
-                                                key: i,
-                                                title: ev.title,
-                                                client: ev.client,
-                                                time: ev.time,
-                                                desc: ev.desc,
-                                                onEventClick: function onEventClick() {
-                                                    return _this2.onEventClick(ev);
-                                                } });
-                                        })
-                                    )
-                                )
-                            )
-                        )
+                      "h2",
+                      { className: "text-center" },
+                      "Calend\xE1rio"
                     )
+                  )
+                ),
+                _react2.default.createElement(
+                  "div",
+                  { className: "card-body" },
+                  _react2.default.createElement(_calendar2.default, {
+                    onPickDate: function onPickDate(date) {
+                      return _this2.onPickDate(date);
+                    },
+                    events: []
+                  })
                 )
-            );
-        }
-    }]);
+              )
+            ),
+            _react2.default.createElement(
+              "div",
+              { className: "col-sm-12 col-md-6 col-lg-9" },
+              _react2.default.createElement(
+                "div",
+                { className: "card" },
+                _react2.default.createElement(
+                  "div",
+                  { className: "card-header" },
+                  _react2.default.createElement(
+                    "div",
+                    { className: "card-title" },
+                    _react2.default.createElement(
+                      "h2",
+                      { style: { float: "left", display: "inline-block" } },
+                      this.state.date ? this.formatDate(this.state.date) : "Selecione um dia"
+                    ),
+                    _react2.default.createElement(_neweventmodal2.default, {
+                      date: this.state.date
+                    })
+                  )
+                ),
+                _react2.default.createElement(
+                  "div",
+                  { className: "card-body" },
+                  _react2.default.createElement(
+                    "ul",
+                    { className: "list-group list-group-flush" },
+                    this.state.events ? "Selecione um dia" : this.state.events.map(function (ev, i) {
+                      return _react2.default.createElement(_event2.default, {
+                        key: i,
+                        title: ev.title,
+                        client: ev.client,
+                        time: ev.time,
+                        desc: ev.desc,
+                        onEventClick: function onEventClick() {
+                          return _this2.onEventClick(ev);
+                        }
+                      });
+                    })
+                  )
+                )
+              )
+            )
+          )
+        )
+      );
+    }
+  }]);
 
-    return UserPage;
+  return UserPage;
 }(_react.Component);
 
 var mapStateToProps = function mapStateToProps(state, ownProps) {
-    return {};
+  return {};
 };
 
 var mapDisatchToProps = function mapDisatchToProps(dispatch, ownProps) {
-    return {
-        presentNewEventModal: function presentNewEventModal() {
-            return dispatch(present());
-        }
-    };
+  return {
+    presentNewEventModal: function presentNewEventModal() {
+      return dispatch(present());
+    }
+  };
 };
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDisatchToProps)(UserPage);
@@ -34784,7 +34788,8 @@ var NewEventModal = function (_Component) {
           dismiss = _props.dismiss,
           present = _props.present,
           updateField = _props.updateField,
-          newEvent = _props.newEvent;
+          newEvent = _props.newEvent,
+          date = _props.date;
 
 
       var styles = {
@@ -34807,7 +34812,7 @@ var NewEventModal = function (_Component) {
 
       return _react2.default.createElement(
         "div",
-        null,
+        { style: date == "" ? { display: 'none' } : {} },
         _react2.default.createElement(
           "div",
           { style: msg == 'Autenticação falhou' ? {} : { display: 'none' } },
@@ -35052,7 +35057,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
     },
     newEvent: function newEvent(e) {
       e.preventDefault();
-      dispatch((0, _events.newEvent)(title.value, client.value, time.value, desc.value));
+      dispatch((0, _events.newEvent)(ownProps.date, title.value, client.value, time.value, desc.value));
     }
   };
 };
@@ -35087,7 +35092,7 @@ var present = exports.present = function present() {
 		};
 };
 
-var newEvent = exports.newEvent = function newEvent(title, client, time, desc) {
+var newEvent = exports.newEvent = function newEvent(date, title, client, time, desc) {
 		return function (dispatch) {
 				dispatch({ type: "LOADING" });
 
@@ -35097,15 +35102,24 @@ var newEvent = exports.newEvent = function newEvent(title, client, time, desc) {
 								'Accept': 'application/json, text/plain, */*',
 								'Content-Type': 'application/json'
 						},
-						body: JSON.stringify({ token: localStorage.getItem('token') })
+						body: JSON.stringify({
+								token: localStorage.getItem('token'),
+								user: localStorage.getItem('user')._id,
+								date: date,
+								title: title,
+								client: client,
+								time: time,
+								desc: desc
+						})
 				};
-
+				console.log(req);
 				fetch('/api/createnewevent', req).then(function (res) {
 						return res.json();
 				}).then(function (data) {
 						if (!data.ok) {
 								throw Error(data.msg);
 						}
+						console.log(data);
 						dispatch({ type: 'EVENT_CREATE_SUCCESS', msg: data.msg });
 				}).catch(function (err) {
 						var msg = void 0;

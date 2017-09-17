@@ -28,7 +28,8 @@ class NewEventModal extends Component {
       dismiss,
       present,
       updateField,
-      newEvent
+			newEvent,
+			date
     } = this.props;
 		
     const styles = {
@@ -48,9 +49,9 @@ class NewEventModal extends Component {
         transform: "translateY(-50%)"
       }
     };
-
+    
     return (
-      <div>
+      <div style={date=="" ? {display: 'none'} : {}}>
 				<div style={msg == 'Autenticação falhou' ? {} : {display:'none'}}>
 					<LoginModal/>
 				</div>
@@ -199,7 +200,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   present: () => dispatch(present()),
   newEvent: e => {
     e.preventDefault();
-    dispatch(newEvent(title.value, client.value, time.value, desc.value));
+    dispatch(newEvent(ownProps.date, title.value, client.value, time.value, desc.value));
 	}
 });
 

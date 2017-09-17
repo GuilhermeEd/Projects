@@ -2,9 +2,10 @@ var express = require("express");
 var router = express.Router();
 var variables = require("../server_config/variables");
 var mongoose = require("mongoose");
-var User = require("../server_config/models/user.js");
 var bcrypt = require("bcryptjs");
 var jwt = require("jsonwebtoken");
+var User = require("../server_config/models/user.js");
+var Event = require("../server_config/models/event.js");
 
 const secret = require("../server_config/variables.js").auth.jwtsecret;
 
@@ -44,7 +45,7 @@ router.post("/api/signup", function(req, res, next) {
       .json({ ok: false, msg: "Senha deve ter ao menos 4 caracteres" });
   const user = new User({
     firstName,
-    lastName: lastName,
+    lastName,
     email,
     password: bcrypt.hashSync(password, 10),
     events: []
@@ -81,13 +82,19 @@ router.post("/api/auth", function(req, res, next) {
 });
 
 // EVENT ROUTES
-
 router.post("/api/createnewevent", function(req, res, next) {
 	jwt.verify(req.body.token, secret, function(err, decoded) {
     if (err) {
       return res.status(500).json({ ok: false, msg: "Autenticação falhou" });
     } else {
-      return res.status(200).json({ ok: true, msg: "Evento criado com sucesso", user: decoded });
+			const {date, title, client, time, desc, user} = req.body;
+			const event = new Event({date, title, client, time, desc, user});
+			event.save(function(err) {
+        if (err) {
+          return res.status(400).json({ ok: false, msg: "Erro ao criar evento" })
+        }
+				res.status(200).json({ ok: true, msg: "Evento criado com sucesso", event});
+			});
     }
   });
 });

@@ -16,7 +16,7 @@ export const present = () => {
   };
 };
 
-export const newEvent = (title, client, time, desc) => {
+export const newEvent = (date, title, client, time, desc) => {
   return dispatch => {
     dispatch({ type: "LOADING" });
 		
@@ -26,13 +26,22 @@ export const newEvent = (title, client, time, desc) => {
 					'Accept': 'application/json, text/plain, */*',
 					'Content-Type': 'application/json'
 			},
-			body: JSON.stringify({token: localStorage.getItem('token')})
+			body: JSON.stringify({
+				token: localStorage.getItem('token'),
+				user: localStorage.getItem('user')._id,
+				date,
+				title,
+				client,
+				time,
+				desc
+			})
 		};
-
+		console.log(req);
 	fetch('/api/createnewevent', req)
 	.then(res => res.json())
 	.then(data => {
 			if(!data.ok){ throw Error(data.msg); }
+			console.log(data);
 			dispatch({ type: 'EVENT_CREATE_SUCCESS', msg: data.msg});
 	})
 	.catch(err => {
