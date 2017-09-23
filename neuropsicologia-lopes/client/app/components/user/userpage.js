@@ -5,6 +5,8 @@ import Calendar from "../common/calendar";
 import "./userpage.css";
 import Event from "../event/event.js";
 import NewEventModal from "../event/neweventmodal.js";
+import { getEvents } from "../../actions/events.js";
+import ReactLoading from "react-loading";
 
 class UserPage extends Component {
   constructor() {
@@ -29,7 +31,13 @@ class UserPage extends Component {
   }
 
   onEventClick(ev) {
-    console.log(ev);
+    //console.log(ev);
+  }
+
+  componentDidMount(){
+    const date = new Date();
+    const events = this.props.getEvents(date);
+    this.setState({date, events});
   }
 
   render() {
@@ -70,9 +78,16 @@ class UserPage extends Component {
                 </div>
                 <div className="card-body">
                   <ul className="list-group list-group-flush">
-                    {this.state.events ? (
-                      "Selecione um dia"
-                    ) : (
+                    {
+                      this.props.loading ? (
+                        <ReactLoading
+                          type="bubbles"
+                          color="#444"
+                          height="20px"
+                          width="35px"
+                          className="new-event-loading"
+                        />) :
+                      !this.state.date ? ("Selecione um dia") :
                       this.state.events.map((ev, i) => {
                         return (
                           <Event
@@ -85,7 +100,7 @@ class UserPage extends Component {
                           />
                         );
                       })
-                    )}
+                    }
                   </ul>
                 </div>
               </div>
@@ -97,10 +112,13 @@ class UserPage extends Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => ({});
+const mapStateToProps = (state, ownProps) => ({
+  loading: state.events.loading
+});
 
 const mapDisatchToProps = (dispatch, ownProps) => ({
-  presentNewEventModal: () => dispatch(present())
+  presentNewEventModal: () => dispatch(present()),
+  getEvents: (date) => dispatch(getEvents(date))
 });
 
 export default connect(mapStateToProps, mapDisatchToProps)(UserPage);

@@ -52,3 +52,15 @@ export const newEvent = (date, title, client, time, desc) => {
 		
   };
 };
+
+export const getEvents = (date) => {
+	return dispatch => {
+		
+		dispatch({type: 'LOADING'});
+
+		dispatch({type: 'EVENTS_GET_SUCCESS', msg: 'Sucesso!'});
+		return [{title:'title',client:'client',time:'time',desc:'desc'}];
+		//dispatch({type: 'EVENTS_GET_FAIL', msg: 'Fracasso!'});
+
+	}
+}
