@@ -9,6 +9,4 @@ var schema = new Schema({
     user: {type: Schema.Types.ObjectId, ref: 'User'}
 });
 
-schema.plugin(uniqueValidator);
-
 module.exports = mongoose.model('Event', schema);

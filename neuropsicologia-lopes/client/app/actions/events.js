@@ -26,7 +26,10 @@ export const newEvent = (title, client, time, desc) => {
 					'Accept': 'application/json, text/plain, */*',
 					'Content-Type': 'application/json'
 			},
-			body: JSON.stringify({token: localStorage.getItem('token')})
+			body: JSON.stringify({
+				token: localStorage.getItem('token'),
+				title, client, time, desc
+			})
 		};
 
 	fetch('/api/createnewevent', req)

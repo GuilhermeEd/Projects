@@ -3,6 +3,7 @@ var router = express.Router();
 var variables = require("../server_config/variables");
 var mongoose = require("mongoose");
 var User = require("../server_config/models/user.js");
+var Event = require("../server_config/models/event.js");
 var bcrypt = require("bcryptjs");
 var jwt = require("jsonwebtoken");
 
@@ -87,7 +88,23 @@ router.post("/api/createnewevent", function(req, res, next) {
     if (err) {
       return res.status(500).json({ ok: false, msg: "Autenticação falhou" });
     } else {
-      return res.status(200).json({ ok: true, msg: "Evento criado com sucesso", user: decoded });
+      User.findOne({email: decoded.user.email}, function(err, userFound) {
+        if (!userFound) {
+          return res.status(400).json({ ok: false, msg: "Autenticação falhou" }); // Usuário não encontrado
+        } else {
+          const { title, client, time, desc } = req.body;
+          const event = new Event({title, client, time, desc, user: userFound._id})
+          event.save(function(err){
+            console.log(userFound);
+            console.log(err);
+            if(err){
+              return res.status(200).json({ ok: false, msg: "Erro ao criar evento", user: decoded });
+            } else {
+              return res.status(200).json({ ok: true, msg: "Evento criado com sucesso", user: decoded });
+            }
+          })
+        }
+      });
     }
   });
 });
