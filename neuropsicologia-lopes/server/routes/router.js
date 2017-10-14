@@ -95,7 +95,6 @@ router.post("/api/createnewevent", function(req, res, next) {
           const { title, client, time, desc, date } = req.body;
           const event = new Event({title, client, time, desc, date, user: userFound._id})
           event.save(function(err){
-            console.log(event);
             if(err){
               return res.status(200).json({ ok: false, msg: "Erro ao criar evento", user: decoded });
             } else {

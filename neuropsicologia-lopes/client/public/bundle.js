@@ -13143,9 +13143,9 @@ var _reactRedux = __webpack_require__(13);
 
 var _reactRouterDom = __webpack_require__(14);
 
-__webpack_require__(285);
+__webpack_require__(284);
 
-var _loginform = __webpack_require__(287);
+var _loginform = __webpack_require__(286);
 
 var _loginform2 = _interopRequireDefault(_loginform);
 
@@ -18104,7 +18104,7 @@ var _neweventmodal = __webpack_require__(281);
 
 var _neweventmodal2 = _interopRequireDefault(_neweventmodal);
 
-var _events = __webpack_require__(282);
+var _events = __webpack_require__(296);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -18279,7 +18279,7 @@ exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDisatchToProps)(U
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(295);
+var content = __webpack_require__(294);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -18334,7 +18334,7 @@ var _home = __webpack_require__(272);
 
 var _home2 = _interopRequireDefault(_home);
 
-var _reducers = __webpack_require__(291);
+var _reducers = __webpack_require__(290);
 
 var _reducers2 = _interopRequireDefault(_reducers);
 
@@ -18342,7 +18342,7 @@ var _loginpage = __webpack_require__(69);
 
 var _loginpage2 = _interopRequireDefault(_loginpage);
 
-var _signuppage = __webpack_require__(294);
+var _signuppage = __webpack_require__(293);
 
 var _signuppage2 = _interopRequireDefault(_signuppage);
 
@@ -34866,9 +34866,9 @@ var _reactRedux = __webpack_require__(13);
 
 var _reactRouterDom = __webpack_require__(14);
 
-var _events = __webpack_require__(282);
+var _events = __webpack_require__(296);
 
-__webpack_require__(283);
+__webpack_require__(282);
 
 var _reactLoading = __webpack_require__(43);
 
@@ -34880,7 +34880,7 @@ var _loginpage = __webpack_require__(69);
 
 var _loginpage2 = _interopRequireDefault(_loginpage);
 
-var _loginmodal = __webpack_require__(290);
+var _loginmodal = __webpack_require__(289);
 
 var _loginmodal2 = _interopRequireDefault(_loginmodal);
 
@@ -35201,68 +35201,10 @@ exports.default = (0, _reactRouterDom.withRouter)((0, _reactRedux.connect)(mapSt
 /* 282 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-		value: true
-});
-var updateField = exports.updateField = function updateField(field) {
-		return function (dispatch) {
-				dispatch({ type: "UPDATE_FIELD", field: field });
-		};
-};
-
-var dismiss = exports.dismiss = function dismiss() {
-		return function (dispatch) {
-				dispatch({ type: "DISMISS_MODAL" });
-		};
-};
-
-var present = exports.present = function present() {
-		return function (dispatch) {
-				dispatch({ type: "PRESENT_MODAL" });
-		};
-};
-
-var newEvent = exports.newEvent = function newEvent(title, client, time, desc, date) {
-		return function (dispatch) {
-				dispatch({ type: "LOADING" });
-				var req = {
-						method: 'POST',
-						headers: {
-								'Accept': 'application/json, text/plain, */*',
-								'Content-Type': 'application/json'
-						},
-						body: JSON.stringify({
-								token: localStorage.getItem('token'),
-								title: title, client: client, time: time, desc: desc, date: date
-						})
-				};
-
-				fetch('/api/createnewevent', req).then(function (res) {
-						return res.json();
-				}).then(function (data) {
-						if (!data.ok) {
-								throw Error(data.msg);
-						}
-						dispatch({ type: 'EVENT_CREATE_SUCCESS', msg: data.msg });
-				}).catch(function (err) {
-						var msg = void 0;
-						err.message == 'Failed to fetch' ? msg = 'Falha ao enviar solicitação' : msg = err.message;
-						dispatch({ type: 'EVENT_CREATE_FAIL', msg: msg });
-				});
-		};
-};
-
-/***/ }),
-/* 283 */
-/***/ (function(module, exports, __webpack_require__) {
-
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(284);
+var content = __webpack_require__(283);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -35287,7 +35229,7 @@ if(false) {
 }
 
 /***/ }),
-/* 284 */
+/* 283 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(19)(undefined);
@@ -35301,13 +35243,13 @@ exports.push([module.i, ".new-event-loading{\r\n    transform: translateY(-7px);
 
 
 /***/ }),
-/* 285 */
+/* 284 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(286);
+var content = __webpack_require__(285);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -35332,7 +35274,7 @@ if(false) {
 }
 
 /***/ }),
-/* 286 */
+/* 285 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(19)(undefined);
@@ -35346,7 +35288,7 @@ exports.push([module.i, "header {\r\n    background-image: url(/img/header.jpg);
 
 
 /***/ }),
-/* 287 */
+/* 286 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35368,7 +35310,7 @@ var _reactRouterDom = __webpack_require__(14);
 
 var _auth = __webpack_require__(34);
 
-__webpack_require__(288);
+__webpack_require__(287);
 
 var _reactLoading = __webpack_require__(43);
 
@@ -35488,13 +35430,13 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
 exports.default = (0, _reactRouterDom.withRouter)((0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(LoginForm));
 
 /***/ }),
-/* 288 */
+/* 287 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(289);
+var content = __webpack_require__(288);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -35519,7 +35461,7 @@ if(false) {
 }
 
 /***/ }),
-/* 289 */
+/* 288 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(19)(undefined);
@@ -35533,7 +35475,7 @@ exports.push([module.i, ".login-loading{\r\n    transform: translateY(-7px);\r\n
 
 
 /***/ }),
-/* 290 */
+/* 289 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35671,7 +35613,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
 exports.default = (0, _reactRouterDom.withRouter)((0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(LoginModal));
 
 /***/ }),
-/* 291 */
+/* 290 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35683,11 +35625,11 @@ Object.defineProperty(exports, "__esModule", {
 
 var _redux = __webpack_require__(63);
 
-var _authReducer = __webpack_require__(292);
+var _authReducer = __webpack_require__(291);
 
 var _authReducer2 = _interopRequireDefault(_authReducer);
 
-var _eventsReducer = __webpack_require__(293);
+var _eventsReducer = __webpack_require__(292);
 
 var _eventsReducer2 = _interopRequireDefault(_eventsReducer);
 
@@ -35699,7 +35641,7 @@ exports.default = (0, _redux.combineReducers)({
 });
 
 /***/ }),
-/* 292 */
+/* 291 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35751,7 +35693,7 @@ var authReducer = function authReducer() {
 exports.default = authReducer;
 
 /***/ }),
-/* 293 */
+/* 292 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35802,7 +35744,7 @@ var eventsReducer = function eventsReducer() {
 exports.default = eventsReducer;
 
 /***/ }),
-/* 294 */
+/* 293 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35824,7 +35766,7 @@ var _reactRouterDom = __webpack_require__(14);
 
 __webpack_require__(116);
 
-var _signupform = __webpack_require__(296);
+var _signupform = __webpack_require__(295);
 
 var _signupform2 = _interopRequireDefault(_signupform);
 
@@ -35923,7 +35865,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
 exports.default = (0, _reactRouterDom.withRouter)((0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(SignUpPage));
 
 /***/ }),
-/* 295 */
+/* 294 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(19)(undefined);
@@ -35937,7 +35879,7 @@ exports.push([module.i, ".signup-banner{\r\n    color: #222;\r\n    background-c
 
 
 /***/ }),
-/* 296 */
+/* 295 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36133,6 +36075,64 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
 };
 
 exports.default = (0, _reactRouterDom.withRouter)((0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(SignUpPanel));
+
+/***/ }),
+/* 296 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+		value: true
+});
+var updateField = exports.updateField = function updateField(field) {
+		return function (dispatch) {
+				dispatch({ type: "UPDATE_FIELD", field: field });
+		};
+};
+
+var dismiss = exports.dismiss = function dismiss() {
+		return function (dispatch) {
+				dispatch({ type: "DISMISS_MODAL" });
+		};
+};
+
+var present = exports.present = function present() {
+		return function (dispatch) {
+				dispatch({ type: "PRESENT_MODAL" });
+		};
+};
+
+var newEvent = exports.newEvent = function newEvent(title, client, time, desc, date) {
+		return function (dispatch) {
+				dispatch({ type: "LOADING" });
+				var req = {
+						method: 'POST',
+						headers: {
+								'Accept': 'application/json, text/plain, */*',
+								'Content-Type': 'application/json'
+						},
+						body: JSON.stringify({
+								token: localStorage.getItem('token'),
+								title: title, client: client, time: time, desc: desc, date: date
+						})
+				};
+
+				fetch('/api/createnewevent', req).then(function (res) {
+						return res.json();
+				}).then(function (data) {
+						if (!data.ok) {
+								throw Error(data.msg);
+						}
+						dispatch({ type: 'EVENT_CREATE_SUCCESS', msg: data.msg });
+				}).catch(function (err) {
+						var msg = void 0;
+						err.message == 'Failed to fetch' ? msg = 'Falha ao enviar solicitação' : msg = err.message;
+						dispatch({ type: 'EVENT_CREATE_FAIL', msg: msg });
+				});
+		};
+};
 
 /***/ })
 /******/ ]);
