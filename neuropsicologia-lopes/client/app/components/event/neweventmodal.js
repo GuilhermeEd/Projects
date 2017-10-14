@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 
-import { updateField, dismiss, present, newEvent } from "../../actions/events";
+import { updateField, dismiss, present } from "../../actions/events";
 import "./neweventmodal.css";
 import ReactLoading from "react-loading";
 import { auth } from '../../actions/auth';
@@ -199,7 +199,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   present: () => dispatch(present()),
   newEvent: e => {
     e.preventDefault();
-    dispatch(newEvent(title.value, client.value, time.value, desc.value));
+    ownProps.newEvent(title.value, client.value, time.value, desc.value);
 	}
 });
 

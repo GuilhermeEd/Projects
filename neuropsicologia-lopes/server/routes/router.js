@@ -92,11 +92,10 @@ router.post("/api/createnewevent", function(req, res, next) {
         if (!userFound) {
           return res.status(400).json({ ok: false, msg: "Autenticação falhou" }); // Usuário não encontrado
         } else {
-          const { title, client, time, desc } = req.body;
-          const event = new Event({title, client, time, desc, user: userFound._id})
+          const { title, client, time, desc, date } = req.body;
+          const event = new Event({title, client, time, desc, date, user: userFound._id})
           event.save(function(err){
-            console.log(userFound);
-            console.log(err);
+            console.log(event);
             if(err){
               return res.status(200).json({ ok: false, msg: "Erro ao criar evento", user: decoded });
             } else {

@@ -18104,6 +18104,8 @@ var _neweventmodal = __webpack_require__(281);
 
 var _neweventmodal2 = _interopRequireDefault(_neweventmodal);
 
+var _events = __webpack_require__(282);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -18146,6 +18148,16 @@ var UserPage = function (_Component) {
         key: 'onEventClick',
         value: function onEventClick(ev) {
             console.log(ev);
+        }
+    }, {
+        key: 'newEvent',
+        value: function newEvent(title, client, time, desc) {
+            this.props.newEvent(title, client, time, desc, this.state.date);
+        }
+    }, {
+        key: 'componentWillMount',
+        value: function componentWillMount() {
+            this.setState({ date: new Date() });
         }
     }, {
         key: 'render',
@@ -18208,7 +18220,9 @@ var UserPage = function (_Component) {
                                             { style: { float: 'left', display: 'inline-block' } },
                                             this.state.date ? this.formatDate(this.state.date) : 'Selecione um dia'
                                         ),
-                                        _react2.default.createElement(_neweventmodal2.default, null)
+                                        _react2.default.createElement(_neweventmodal2.default, { newEvent: function newEvent(title, client, time, desc) {
+                                                return _this2.newEvent(title, client, time, desc);
+                                            } })
                                     )
                                 ),
                                 _react2.default.createElement(
@@ -18249,6 +18263,9 @@ var mapDisatchToProps = function mapDisatchToProps(dispatch, ownProps) {
     return {
         presentNewEventModal: function presentNewEventModal() {
             return dispatch(present());
+        },
+        newEvent: function newEvent(title, client, time, desc, date) {
+            return dispatch((0, _events.newEvent)(title, client, time, desc, date));
         }
     };
 };
@@ -35173,7 +35190,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
     },
     newEvent: function newEvent(e) {
       e.preventDefault();
-      dispatch((0, _events.newEvent)(title.value, client.value, time.value, desc.value));
+      ownProps.newEvent(title.value, client.value, time.value, desc.value);
     }
   };
 };
@@ -35208,10 +35225,9 @@ var present = exports.present = function present() {
 		};
 };
 
-var newEvent = exports.newEvent = function newEvent(title, client, time, desc) {
+var newEvent = exports.newEvent = function newEvent(title, client, time, desc, date) {
 		return function (dispatch) {
 				dispatch({ type: "LOADING" });
-
 				var req = {
 						method: 'POST',
 						headers: {
@@ -35220,7 +35236,7 @@ var newEvent = exports.newEvent = function newEvent(title, client, time, desc) {
 						},
 						body: JSON.stringify({
 								token: localStorage.getItem('token'),
-								title: title, client: client, time: time, desc: desc
+								title: title, client: client, time: time, desc: desc, date: date
 						})
 				};
 

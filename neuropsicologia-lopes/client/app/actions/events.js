@@ -16,10 +16,9 @@ export const present = () => {
   };
 };
 
-export const newEvent = (title, client, time, desc) => {
+export const newEvent = (title, client, time, desc, date) => {
   return dispatch => {
     dispatch({ type: "LOADING" });
-		
 		const req = {
 			method: 'POST',
 			headers: {
@@ -28,7 +27,7 @@ export const newEvent = (title, client, time, desc) => {
 			},
 			body: JSON.stringify({
 				token: localStorage.getItem('token'),
-				title, client, time, desc
+				title, client, time, desc, date
 			})
 		};
 

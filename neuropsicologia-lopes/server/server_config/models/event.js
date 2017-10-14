@@ -6,6 +6,7 @@ var schema = new Schema({
     client: {type: String},
     time: {type: String},
     desc: {type: String},
+    date: {type: Date},
     user: {type: Schema.Types.ObjectId, ref: 'User'}
 });
 
