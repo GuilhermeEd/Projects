@@ -45,3 +45,30 @@ export const newEvent = (title, client, time, desc, date) => {
 		
   };
 };
+
+export const getEvents = () => {
+	return dispatch => {
+		console.log('getEvents:');
+		const req = {
+			method: 'POST',
+			headers: {
+					'Accept': 'application/json, text/plain, */*',
+					'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({token: localStorage.getItem('token')})
+		}
+
+		fetch('/api/getevents', req)
+		.then(res => res.json())
+		.then(data => {
+				if(!data.ok){ throw Error(data.msg); }
+				console.log(data);
+				dispatch({ type: 'EVENT_GET_SUCCESS', msg: data.msg});
+		})
+		.catch(err => {
+				let msg;
+				(err.message == 'Failed to fetch') ? (msg = 'Falha ao enviar solicitação') : (msg = err.message);
+				dispatch({ type: 'EVENT_GET_FAIL', msg});
+		});
+	}
+}

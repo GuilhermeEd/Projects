@@ -5,7 +5,7 @@ import Calendar from '../common/calendar';
 import './userpage.css';
 import Event from '../event/event';
 import NewEventModal from '../event/neweventmodal';
-import { newEvent } from '../../actions/events';
+import { newEvent, getEvents } from '../../actions/events';
 
 class UserPage extends Component{
 
@@ -41,6 +41,10 @@ class UserPage extends Component{
 
     componentWillMount(){
         this.setState({date: new Date()});
+    }
+
+    componentDidMount(){
+        this.props.getEvents();
     }
 
     render(){
@@ -101,7 +105,8 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDisatchToProps = (dispatch, ownProps) => ({
     presentNewEventModal: () => dispatch(present()),
-    newEvent: (title, client, time, desc, date) => dispatch(newEvent(title, client, time, desc, date))
+    newEvent: (title, client, time, desc, date) => dispatch(newEvent(title, client, time, desc, date)),
+    getEvents: () => dispatch(getEvents())
 });
 
 export default connect(mapStateToProps, mapDisatchToProps)(UserPage);

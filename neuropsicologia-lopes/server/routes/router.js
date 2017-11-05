@@ -107,6 +107,22 @@ router.post("/api/createnewevent", function(req, res, next) {
   });
 });
 
+router.post("/api/getevents", function(req, res, next){
+  jwt.verify(req.body.token, secret, function(err, decoded) {
+    if (err) {
+      return res.status(500).json({ ok: false, msg: "Autenticação falhou" });
+    } else {
+      Event.find({user: decoded.user._id}, function(err, eventsFound) {
+        if (!eventsFound) {
+          return res.status(400).json({ ok: false, msg: "Autenticação falhou" }); // Usuário não encontrado
+        } else {
+          return res.status(200).json({ ok: true, msg: "Eventos obtidos com sucesso", events: eventsFound});
+        }
+      });
+    }
+  });
+})
+
 router.get("/", function(req, res, next) {
   res.render("index");
 });
