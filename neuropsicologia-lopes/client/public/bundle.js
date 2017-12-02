@@ -18117,14 +18117,13 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var UserPage = function (_Component) {
     _inherits(UserPage, _Component);
 
-    function UserPage() {
+    function UserPage(props) {
         _classCallCheck(this, UserPage);
 
-        var _this = _possibleConstructorReturn(this, (UserPage.__proto__ || Object.getPrototypeOf(UserPage)).call(this));
+        var _this = _possibleConstructorReturn(this, (UserPage.__proto__ || Object.getPrototypeOf(UserPage)).call(this, props));
 
         _this.state = {
-            date: '',
-            events: []
+            date: new Date()
         };
         return _this;
     }
@@ -18134,10 +18133,20 @@ var UserPage = function (_Component) {
         value: function formatDate(date) {
             var day = date.getDate();
             var month = date.getMonth() + 1;
-            var year = date.getYear();
+            var year = date.getFullYear();
             if (day < 10) day = "0" + day;
             if (month < 10) month = "0" + month;
             return day + '/' + month + '/' + year;
+        }
+    }, {
+        key: 'formatISODate',
+        value: function formatISODate(date) {
+            var day = date.getDate();
+            var month = date.getMonth() + 1;
+            var year = date.getFullYear();
+            if (day < 10) day = "0" + day;
+            if (month < 10) month = "0" + month;
+            return year + '-' + month + '-' + day;
         }
     }, {
         key: 'onPickDate',
@@ -18157,17 +18166,33 @@ var UserPage = function (_Component) {
     }, {
         key: 'componentWillMount',
         value: function componentWillMount() {
-            this.setState({ date: new Date() });
+            this.props.getEvents();
         }
     }, {
-        key: 'componentDidMount',
-        value: function componentDidMount() {
-            this.props.getEvents();
+        key: 'renderEvents',
+        value: function renderEvents() {
+            var _this2 = this;
+
+            var events = this.props.events.filter(function (ev) {
+                return ev.date.substring(0, 10) == _this2.formatISODate(_this2.state.date);
+            }).map(function (ev) {
+                return _react2.default.createElement(_event2.default, {
+                    key: ev.time,
+                    title: ev.title,
+                    client: ev.client,
+                    time: ev.time,
+                    desc: ev.desc,
+                    onEventClick: function onEventClick() {
+                        return _this2.onEventClick(ev);
+                    } });
+            });
+
+            return events.length == 0 ? 'Nenhum evento para esse dia...' : events;
         }
     }, {
         key: 'render',
         value: function render() {
-            var _this2 = this;
+            var _this3 = this;
 
             return _react2.default.createElement(
                 'div',
@@ -18202,9 +18227,9 @@ var UserPage = function (_Component) {
                                     { className: 'card-body' },
                                     _react2.default.createElement(_calendar2.default, {
                                         onPickDate: function onPickDate(date) {
-                                            return _this2.onPickDate(date);
+                                            return _this3.onPickDate(date);
                                         },
-                                        events: this.state.events })
+                                        events: this.props.events })
                                 )
                             )
                         ),
@@ -18226,7 +18251,7 @@ var UserPage = function (_Component) {
                                             this.state.date ? this.formatDate(this.state.date) : 'Selecione um dia'
                                         ),
                                         _react2.default.createElement(_neweventmodal2.default, { newEvent: function newEvent(title, client, time, desc) {
-                                                return _this2.newEvent(title, client, time, desc);
+                                                return _this3.newEvent(title, client, time, desc);
                                             } })
                                     )
                                 ),
@@ -18236,17 +18261,7 @@ var UserPage = function (_Component) {
                                     _react2.default.createElement(
                                         'ul',
                                         { className: 'list-group list-group-flush' },
-                                        this.state.events ? 'Nenhum evento para esse dia...' : this.state.events.map(function (ev, i) {
-                                            return _react2.default.createElement(_event2.default, {
-                                                key: i,
-                                                title: ev.title,
-                                                client: ev.client,
-                                                time: ev.time,
-                                                desc: ev.desc,
-                                                onEventClick: function onEventClick() {
-                                                    return _this2.onEventClick(ev);
-                                                } });
-                                        })
+                                        this.renderEvents()
                                     )
                                 )
                             )
@@ -18261,7 +18276,9 @@ var UserPage = function (_Component) {
 }(_react.Component);
 
 var mapStateToProps = function mapStateToProps(state, ownProps) {
-    return {};
+    return {
+        events: state.events.events
+    };
 };
 
 var mapDisatchToProps = function mapDisatchToProps(dispatch, ownProps) {
@@ -18340,7 +18357,6 @@ var newEvent = exports.newEvent = function newEvent(title, client, time, desc, d
 
 var getEvents = exports.getEvents = function getEvents() {
 		return function (dispatch) {
-				console.log('getEvents:');
 				var req = {
 						method: 'POST',
 						headers: {
@@ -18356,8 +18372,7 @@ var getEvents = exports.getEvents = function getEvents() {
 						if (!data.ok) {
 								throw Error(data.msg);
 						}
-						console.log(data);
-						dispatch({ type: 'EVENT_GET_SUCCESS', msg: data.msg });
+						dispatch({ type: 'EVENT_GET_SUCCESS', events: data.events });
 				}).catch(function (err) {
 						var msg = void 0;
 						err.message == 'Failed to fetch' ? msg = 'Falha ao enviar solicitação' : msg = err.message;
@@ -35808,6 +35823,7 @@ var INITIAL_STATE = {
     time: '',
     desc: '',
     msg: '',
+    events: [],
     fail: false,
     success: false,
     loading: false
@@ -35831,9 +35847,9 @@ var eventsReducer = function eventsReducer() {
         case 'EVENT_CREATE_FAIL':
             return _extends({}, state, { loading: false, success: false, fail: true, msg: action.msg });
         case 'EVENT_GET_SUCCESS':
-            return _extends({}, state, { loading: false, success: true, fail: false, msg: action.msg });
+            return _extends({}, state, { loading: false, events: action.events });
         case 'EVENT_GET_FAIL':
-            return _extends({}, state, { loading: false, success: false, fail: true, msg: action.msg });
+            return _extends({}, state, { loading: false });
         default:
             return _extends({}, state);
     }

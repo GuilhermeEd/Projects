@@ -48,7 +48,6 @@ export const newEvent = (title, client, time, desc, date) => {
 
 export const getEvents = () => {
 	return dispatch => {
-		console.log('getEvents:');
 		const req = {
 			method: 'POST',
 			headers: {
@@ -62,8 +61,7 @@ export const getEvents = () => {
 		.then(res => res.json())
 		.then(data => {
 				if(!data.ok){ throw Error(data.msg); }
-				console.log(data);
-				dispatch({ type: 'EVENT_GET_SUCCESS', msg: data.msg});
+				dispatch({ type: 'EVENT_GET_SUCCESS', events: data.events});
 		})
 		.catch(err => {
 				let msg;

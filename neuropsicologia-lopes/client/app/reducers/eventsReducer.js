@@ -5,6 +5,7 @@ const INITIAL_STATE = {
     time: '',
     desc: '',
     msg: '',
+    events: [],
     fail: false,
     success: false,
     loading: false,
@@ -25,9 +26,9 @@ const eventsReducer = (state = INITIAL_STATE, action) => {
         case 'EVENT_CREATE_FAIL':
             return {...state, loading: false, success: false, fail: true, msg: action.msg};
         case 'EVENT_GET_SUCCESS':
-            return {...state, loading: false, success: true, fail: false, msg: action.msg};
+            return {...state, loading: false, events: action.events};
         case 'EVENT_GET_FAIL':
-            return {...state, loading: false, success: false, fail: true, msg: action.msg};
+            return {...state, loading: false};
         default:
             return { ...state };
     }

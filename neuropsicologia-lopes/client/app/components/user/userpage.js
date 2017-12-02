@@ -9,26 +9,33 @@ import { newEvent, getEvents } from '../../actions/events';
 
 class UserPage extends Component{
 
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
         this.state = ({
-            date: '',
-            events: []
+            date: new Date()
         });
     }
 
     formatDate(date){
         let day = date.getDate();
         let month = date.getMonth()+1;
-        let year = date.getYear();
+        let year = date.getFullYear();
         if (day < 10) day = "0" + day;
         if (month < 10) month = "0" + month;
         return `${day}/${month}/${year}`;
     }
 
+    formatISODate(date){
+        let day = date.getDate();
+        let month = date.getMonth()+1;
+        let year = date.getFullYear();
+        if (day < 10) day = "0" + day;
+        if (month < 10) month = "0" + month;
+        return `${year}-${month}-${day}`;
+    }
+
     onPickDate(date){
         this.setState({date});
-        
     }
 
     onEventClick(ev){
@@ -40,11 +47,26 @@ class UserPage extends Component{
     }
 
     componentWillMount(){
-        this.setState({date: new Date()});
+        this.props.getEvents();
     }
 
-    componentDidMount(){
-        this.props.getEvents();
+    renderEvents(){
+        const events = 
+        this.props.events
+        .filter( ev => {
+            return ev.date.substring(0,10) == this.formatISODate(this.state.date);
+        })
+        .map(ev => {
+        return  <Event
+                key={ev.time}
+                title={ev.title}
+                client={ev.client}
+                time={ev.time}
+                desc={ev.desc}
+                onEventClick={()=>this.onEventClick(ev)}/>
+        });
+
+        return events.length == 0 ? 'Nenhum evento para esse dia...' : events;
     }
 
     render(){
@@ -62,7 +84,7 @@ class UserPage extends Component{
                                 <div className="card-body">
                                     <Calendar
                                         onPickDate={(date)=>this.onPickDate(date)}
-                                        events={this.state.events}/>
+                                        events={this.props.events}/>
                                 </div>
                             </div>
                         </div>
@@ -76,17 +98,7 @@ class UserPage extends Component{
                                 </div>
                                 <div className="card-body">
                                     <ul className="list-group list-group-flush">
-                                        {
-                                            this.state.events ? 'Nenhum evento para esse dia...' : this.state.events.map((ev,i)=>{
-                                            return <Event
-                                                    key={i}
-                                                    title={ev.title}
-                                                    client={ev.client}
-                                                    time={ev.time}
-                                                    desc={ev.desc}
-                                                    onEventClick={()=>this.onEventClick(ev)}/>
-                                            })
-                                        }
+                                        { this.renderEvents() }
                                     </ul>
                                 </div>
                             </div>
@@ -100,7 +112,7 @@ class UserPage extends Component{
 }
 
 const mapStateToProps = (state, ownProps) => ({
-    
+    events: state.events.events
 });
 
 const mapDisatchToProps = (dispatch, ownProps) => ({
