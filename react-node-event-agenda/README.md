@@ -1,4 +1,4 @@
-# Reason Node Event Calendar
+# React Node Event Calendar
 
 This is simply my very first FullStack project using React JS, Node JS, Express JS and MongoDB. The project has solely educational purpose and is not intended to be used into production envoirment.
 
