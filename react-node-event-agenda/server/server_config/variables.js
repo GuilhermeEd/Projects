@@ -3,7 +3,7 @@ const variables = {
     db : {
         host: "localhost",
         port: "27017",
-        name: "nplopes",
+        name: "db",
         user: "",
         pass: ""
     },
