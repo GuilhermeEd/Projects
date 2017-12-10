@@ -16,7 +16,7 @@ export const present = () => {
   };
 };
 
-export const newEvent = (title, client, time, desc, date) => {
+export const newEvent = (title, client, time, desc, date, cb) => {
   return dispatch => {
     dispatch({ type: "LOADING" });
 		const req = {
@@ -36,6 +36,7 @@ export const newEvent = (title, client, time, desc, date) => {
 	.then(data => {
 			if(!data.ok){ throw Error(data.msg); }
 			dispatch({ type: 'EVENT_CREATE_SUCCESS', msg: data.msg});
+			cb();
 	})
 	.catch(err => {
 			let msg;

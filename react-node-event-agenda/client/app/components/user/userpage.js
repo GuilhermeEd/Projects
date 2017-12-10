@@ -43,10 +43,14 @@ class UserPage extends Component{
     }
 
     newEvent(title, client, time, desc){
-        this.props.newEvent(title, client, time, desc, this.state.date);
+        this.props.newEvent(title, client, time, desc, this.state.date, this.updateEvents.bind(this));
     }
 
     componentWillMount(){
+        this.updateEvents();
+    }
+
+    updateEvents(){
         this.props.getEvents();
     }
 
@@ -117,7 +121,7 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDisatchToProps = (dispatch, ownProps) => ({
     presentNewEventModal: () => dispatch(present()),
-    newEvent: (title, client, time, desc, date) => dispatch(newEvent(title, client, time, desc, date)),
+    newEvent: (title, client, time, desc, date, cb) => dispatch(newEvent(title, client, time, desc, date, cb)),
     getEvents: () => dispatch(getEvents())
 });
 

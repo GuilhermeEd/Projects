@@ -18161,11 +18161,16 @@ var UserPage = function (_Component) {
     }, {
         key: 'newEvent',
         value: function newEvent(title, client, time, desc) {
-            this.props.newEvent(title, client, time, desc, this.state.date);
+            this.props.newEvent(title, client, time, desc, this.state.date, this.updateEvents.bind(this));
         }
     }, {
         key: 'componentWillMount',
         value: function componentWillMount() {
+            this.updateEvents();
+        }
+    }, {
+        key: 'updateEvents',
+        value: function updateEvents() {
             this.props.getEvents();
         }
     }, {
@@ -18286,8 +18291,8 @@ var mapDisatchToProps = function mapDisatchToProps(dispatch, ownProps) {
         presentNewEventModal: function presentNewEventModal() {
             return dispatch(present());
         },
-        newEvent: function newEvent(title, client, time, desc, date) {
-            return dispatch((0, _events.newEvent)(title, client, time, desc, date));
+        newEvent: function newEvent(title, client, time, desc, date, cb) {
+            return dispatch((0, _events.newEvent)(title, client, time, desc, date, cb));
         },
         getEvents: function getEvents() {
             return dispatch((0, _events.getEvents)());
@@ -18325,7 +18330,7 @@ var present = exports.present = function present() {
 		};
 };
 
-var newEvent = exports.newEvent = function newEvent(title, client, time, desc, date) {
+var newEvent = exports.newEvent = function newEvent(title, client, time, desc, date, cb) {
 		return function (dispatch) {
 				dispatch({ type: "LOADING" });
 				var req = {
@@ -18347,6 +18352,7 @@ var newEvent = exports.newEvent = function newEvent(title, client, time, desc, d
 								throw Error(data.msg);
 						}
 						dispatch({ type: 'EVENT_CREATE_SUCCESS', msg: data.msg });
+						cb();
 				}).catch(function (err) {
 						var msg = void 0;
 						err.message == 'Failed to fetch' ? msg = 'Falha ao enviar solicitação' : msg = err.message;
