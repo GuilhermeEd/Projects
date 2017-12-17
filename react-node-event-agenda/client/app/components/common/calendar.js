@@ -77,7 +77,10 @@ class Calendar extends Component{
             prevMonth = 12;
             let prevYear = this.state.year - 1;
             if(this.props.events){
-                events = this.props.events.filter(date=>date.getMonth() == prevMonth-1 && date.getFullYear() == prevYear);
+                events = this.props.events.filter(ev=>{
+                    const date = new Date(ev.date);
+                    date.getMonth() == prevMonth-1 && date.getFullYear() == prevYear
+                });
                 events = events.map(date=>date.getDate());
             }
             this.setState({
@@ -89,7 +92,10 @@ class Calendar extends Component{
         } else {
             prevMonth = this.state.month - 1;
             if(this.props.events){
-                events = this.props.events.filter(date=>date.getMonth() == prevMonth-1 && date.getFullYear() == this.state.year);
+                events = this.props.events.filter(ev=>{
+                    const date = new Date(ev.date);
+                    date.getMonth() == prevMonth-1 && date.getFullYear() == this.state.year
+                });
                 events = events.map(date=>date.getDate());
             }
             this.setState({
@@ -106,8 +112,12 @@ class Calendar extends Component{
             nextMonth = 1;
             let nextYear = this.state.year + 1;
             if(this.props.events){
-                events = this.props.events.filter(date=>date.getMonth() == nextMonth-1 && date.getFullYear() == nextYear);
+                events = this.props.events.filter(ev=>{
+                    const date = new Date(ev.date);
+                    date.getMonth() == nextMonth-1 && date.getFullYear() == nextYear
+                });
                 events = events.map(date=>date.getDate());
+
             }
             this.setState({
                 events,
@@ -118,7 +128,10 @@ class Calendar extends Component{
         } else {
             nextMonth = this.state.month + 1;
             if(this.props.events){
-                events = this.props.events.filter(date=>date.getMonth() == nextMonth-1 && date.getFullYear() == this.state.year);
+                events = this.props.events.filter(ev=>{
+                    const date = new Date(ev.date);
+                    date.getMonth() == nextMonth-1 && date.getFullYear() == this.state.year
+                });
                 events = events.map(date=>date.getDate());
             }
             this.setState({
