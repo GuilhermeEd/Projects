@@ -36,7 +36,10 @@ class Calendar extends Component{
         const year = today.getFullYear();
         let events = [];
         if(this.props.events){
-            events = this.props.events.filter(date=>date.getMonth() == today.getMonth() && date.getFullYear() == today.getFullYear());
+            events = this.props.events.filter(ev=>{
+                const date = new Date(ev.date);
+                date.getMonth() == today.getMonth() && date.getFullYear() == today.getFullYear()
+            });
             events = events.map(date=>date.getDate());
         }
         this.setState({events,month,year,days: this.getDays(month, year)});

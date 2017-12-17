@@ -102,6 +102,6 @@ export const signup = (firstName, lastName, email, password, passwordconfirmatio
 
 export const sessionExpired = () => {
     dispatch => {
-        dispatch({type: 'SESSION_EXPIRED'})
+        dispatch({type: 'SESSION_EXPIRED'});
     }
 }

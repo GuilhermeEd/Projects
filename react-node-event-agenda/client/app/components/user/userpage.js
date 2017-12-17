@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import Calendar from '../common/calendar';
 import './userpage.css';
 import Event from '../event/event';
 import NewEventModal from '../event/neweventmodal';
 import { newEvent, getEvents } from '../../actions/events';
+import { logOff } from '../../actions/auth';
 
 class UserPage extends Component{
 
@@ -77,6 +78,15 @@ class UserPage extends Component{
         return (
             <div>
                 <div className="container-fluid">
+                    <div className="row" style={{justifyContent: 'space-between'}}>
+                        <div className="page-header">
+                            <h1>Event Agenda</h1>
+                        </div>
+                        <Link
+                        to="/"
+                        onClick={()=>localStorage.removeItem('token')}>
+                        Sair</Link>
+                    </div>
                     <div className="row">
                         <div name="Calendar" className="col-sm-12 col-md-6 col-lg-3">
                             <div className="card">
@@ -122,7 +132,8 @@ const mapStateToProps = (state, ownProps) => ({
 const mapDisatchToProps = (dispatch, ownProps) => ({
     presentNewEventModal: () => dispatch(present()),
     newEvent: (title, client, time, desc, date, cb) => dispatch(newEvent(title, client, time, desc, date, cb)),
-    getEvents: () => dispatch(getEvents())
+    getEvents: () => dispatch(getEvents()),
+    logOff: () => dispatch(logOff())
 });
 
 export default connect(mapStateToProps, mapDisatchToProps)(UserPage);

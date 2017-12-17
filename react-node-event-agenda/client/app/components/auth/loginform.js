@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 
 import { updateField, login } from '../../actions/auth'
 import './loginform.css';
@@ -31,6 +31,10 @@ class LoginForm extends Component {
                         disabled={!(email && password)}>
                         {loading ? <ReactLoading type="bubbles" color="#444" height="20px" width="35px" className="login-loading"/> : "Login"}
                     </button>
+                    <Link
+                        style={{float: 'right'}}
+                        to="/signup">
+                        Registrar</Link>
                 </div>
             </form>
         );

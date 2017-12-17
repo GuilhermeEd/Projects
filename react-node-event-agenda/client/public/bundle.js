@@ -18106,6 +18106,8 @@ var _neweventmodal2 = _interopRequireDefault(_neweventmodal);
 
 var _events = __webpack_require__(116);
 
+var _auth = __webpack_require__(34);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -18207,6 +18209,28 @@ var UserPage = function (_Component) {
                     { className: 'container-fluid' },
                     _react2.default.createElement(
                         'div',
+                        { className: 'row', style: { justifyContent: 'space-between' } },
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'page-header' },
+                            _react2.default.createElement(
+                                'h1',
+                                null,
+                                'Event Agenda'
+                            )
+                        ),
+                        _react2.default.createElement(
+                            _reactRouterDom.Link,
+                            {
+                                to: '/',
+                                onClick: function onClick() {
+                                    return localStorage.removeItem('token');
+                                } },
+                            'Sair'
+                        )
+                    ),
+                    _react2.default.createElement(
+                        'div',
                         { className: 'row' },
                         _react2.default.createElement(
                             'div',
@@ -18296,6 +18320,9 @@ var mapDisatchToProps = function mapDisatchToProps(dispatch, ownProps) {
         },
         getEvents: function getEvents() {
             return dispatch((0, _events.getEvents)());
+        },
+        logOff: function logOff() {
+            return dispatch((0, _auth.logOff)());
         }
     };
 };
@@ -34343,8 +34370,9 @@ var Calendar = function (_Component) {
             var year = today.getFullYear();
             var events = [];
             if (this.props.events) {
-                events = this.props.events.filter(function (date) {
-                    return date.getMonth() == today.getMonth() && date.getFullYear() == today.getFullYear();
+                events = this.props.events.filter(function (ev) {
+                    var date = new Date(ev.date);
+                    date.getMonth() == today.getMonth() && date.getFullYear() == today.getFullYear();
                 });
                 events = events.map(function (date) {
                     return date.getDate();
@@ -34400,8 +34428,9 @@ var Calendar = function (_Component) {
                 prevMonth = 12;
                 var prevYear = this.state.year - 1;
                 if (this.props.events) {
-                    events = this.props.events.filter(function (date) {
-                        return date.getMonth() == prevMonth - 1 && date.getFullYear() == prevYear;
+                    events = this.props.events.filter(function (ev) {
+                        var date = new Date(ev.date);
+                        date.getMonth() == prevMonth - 1 && date.getFullYear() == prevYear;
                     });
                     events = events.map(function (date) {
                         return date.getDate();
@@ -34416,8 +34445,9 @@ var Calendar = function (_Component) {
             } else {
                 prevMonth = this.state.month - 1;
                 if (this.props.events) {
-                    events = this.props.events.filter(function (date) {
-                        return date.getMonth() == prevMonth - 1 && date.getFullYear() == _this2.state.year;
+                    events = this.props.events.filter(function (ev) {
+                        var date = new Date(ev.date);
+                        date.getMonth() == prevMonth - 1 && date.getFullYear() == _this2.state.year;
                     });
                     events = events.map(function (date) {
                         return date.getDate();
@@ -34441,8 +34471,9 @@ var Calendar = function (_Component) {
                 nextMonth = 1;
                 var nextYear = this.state.year + 1;
                 if (this.props.events) {
-                    events = this.props.events.filter(function (date) {
-                        return date.getMonth() == nextMonth - 1 && date.getFullYear() == nextYear;
+                    events = this.props.events.filter(function (ev) {
+                        var date = new Date(ev.date);
+                        date.getMonth() == nextMonth - 1 && date.getFullYear() == nextYear;
                     });
                     events = events.map(function (date) {
                         return date.getDate();
@@ -34457,8 +34488,9 @@ var Calendar = function (_Component) {
             } else {
                 nextMonth = this.state.month + 1;
                 if (this.props.events) {
-                    events = this.props.events.filter(function (date) {
-                        return date.getMonth() == nextMonth - 1 && date.getFullYear() == _this3.state.year;
+                    events = this.props.events.filter(function (ev) {
+                        var date = new Date(ev.date);
+                        date.getMonth() == nextMonth - 1 && date.getFullYear() == _this3.state.year;
                     });
                     events = events.map(function (date) {
                         return date.getDate();
@@ -35512,6 +35544,13 @@ var LoginForm = function (_Component) {
                             className: 'btn btn-default',
                             disabled: !(email && password) },
                         loading ? _react2.default.createElement(_reactLoading2.default, { type: 'bubbles', color: '#444', height: '20px', width: '35px', className: 'login-loading' }) : "Login"
+                    ),
+                    _react2.default.createElement(
+                        _reactRouterDom.Link,
+                        {
+                            style: { float: 'right' },
+                            to: '/signup' },
+                        'Registrar'
                     )
                 )
             );
@@ -36153,15 +36192,22 @@ var SignUpPanel = function (_Component) {
                     'div',
                     { className: 'form-group' },
                     _react2.default.createElement(
+                        'span',
+                        { style: { color: 'red', fontSize: 'small', display: 'block' } },
+                        '* Campos Obrigat\xF3rios'
+                    ),
+                    _react2.default.createElement(
                         'button',
                         { type: 'submit', className: 'btn btn-default',
                             disabled: !(firstName && email && password && passwordconfirmation) || loading },
                         loading ? _react2.default.createElement(_reactLoading2.default, { type: 'bubbles', color: '#444', height: '20px', width: '58px', className: 'signup-loading' }) : "Registrar"
                     ),
                     _react2.default.createElement(
-                        'span',
-                        { style: { color: 'red', float: 'right', fontSize: 'small' } },
-                        '* Campos Obrigat\xF3rios'
+                        _reactRouterDom.Link,
+                        {
+                            to: '/login',
+                            style: { float: 'right' } },
+                        'Entrar'
                     )
                 )
             );

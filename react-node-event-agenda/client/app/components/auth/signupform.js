@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 
 import { updateField, signup } from '../../actions/auth'
 import './signupform.css';
@@ -50,11 +50,15 @@ class SignUpPanel extends Component {
                     onChange={e=>updateField(e.target)}/>
                 </div>
                 <div className="form-group">
+                    <span style={{color: 'red', fontSize: 'small', display: 'block'}}>* Campos Obrigatórios</span>
                     <button type="submit" className="btn btn-default"
                     disabled={!(firstName && email && password && passwordconfirmation) || loading}>{
                         loading ? <ReactLoading type="bubbles" color="#444" height="20px" width="58px" className="signup-loading"/> : "Registrar"
                     }</button>
-                    <span style={{color: 'red', float: 'right', fontSize: 'small'}}>* Campos Obrigatórios</span>
+                    <Link
+                        to="/login"
+                        style={{float: 'right'}}>
+                        Entrar</Link>
                 </div>
             </form>
         );
